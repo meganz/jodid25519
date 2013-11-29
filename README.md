@@ -7,7 +7,7 @@ This is the main function: curve25519(f, c).
 
 As in curve25519-donna, some bits in the private key are altered to harden the operation of the function.
 
-This implementation is potentally susceptive to timing attacks, since there are branching points.  In addition, the Javascript implementation of numberical functions may not be constant-time.  This is a concern for real-time applications of the function, for example.
+This implementation is potentally susceptive to timing attacks, since there are branching points.  In addition, the Javascript implementation of numerical functions may not be constant-time.  This is a concern for real-time applications, for example.
 
 Copyright and MIT licensing
 ---------------------------
