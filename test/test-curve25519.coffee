@@ -32,7 +32,7 @@ doit = (e, k) ->
   write " "
   printKey k
   write " "
-  ek = curve25519 e, k
+  ek = env.curve25519_raw e, k
   printKey ek
   write "\n"
   ek

@@ -394,7 +394,7 @@ function c255lsum(x, z, x_p, z_p, x_1) {
 }
 
 
-function curve25519(f, c) {
+function curve25519_raw(f, c) {
   var a, x_1, q;
 
   x_1 = c;
@@ -450,4 +450,10 @@ function c255lformcomp(form) {
   with (form) {
     resultkey.value = curve25519b32(privatekey.value, publickey.value);
   }
+}
+
+function curve25519(f, c) {
+    f[0]   &= 0xFFF8;
+    f[15]  = (f[15] & 0x7FFF) | 0x4000;
+    return curve25519_raw(f, c);
 }
