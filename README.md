@@ -5,7 +5,7 @@ A sample Javascript implementation of the Curve25519 elliptic cryptography funct
 
 This is the main function: curve25519(f, c).
 
-Like curve25519-donna, some bits in the private key are altered to harden the operation of the function.
+As in curve25519-donna, some bits in the private key are altered to harden the operation of the function.
 
 This implementation is potentally susceptive to timing attacks, since there are branching points.  In addition, the Javascript implementation of numberical functions may not be constant-time.  This is a concern for real-time applications of the function, for example.
 
