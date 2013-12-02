@@ -11,10 +11,10 @@ var shared_secret = curve25519(private_secret, public_key);
 
 As in curve25519-donna, some bits in the private key are altered to harden the operation of the function.
 
-The private and public keys are expressed as arrays of 16-bit values, starting from the least significant ones.
+The private and public keys are expressed as arrays of 16-bit values, starting from the least significant ones:
 
 ````
-point = key[0] × 2^16 + key[1] × 2^32 × … × key[15] × 2^(16*15)
+point = key[0] + key[1] × 2^16 × … × key[15] × 2^(16*15)
 ````
 
 This implementation is potentally susceptive to timing attacks, since there are branching points.  In addition, the Javascript implementation of numerical functions may not be constant-time.  This is a concern for real-time applications, for example.
