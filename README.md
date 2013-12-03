@@ -17,7 +17,7 @@ Private and public keys are represented by arrays of 16-bit values, starting fro
 key = arr[0] + arr[1] × 2^16 + arr[2] × 2^32 + … + arr[15] × 2^(16*15)
 ````
 
-This implementation is potentally sensitive to timing attacks, since there are branching points.  In addition, the Javascript implementation of numerical functions may not be constant-time.  This is a concern for real-time applications, for example.
+Please note that, while the main function is free of conditional branching, its actual constant-time operation is dependent on the Javascript implementation of numerical operations being also constant-time.
 
 Copyright and MIT licensing
 ---------------------------
