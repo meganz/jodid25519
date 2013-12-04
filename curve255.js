@@ -86,7 +86,7 @@ function c255lone() {
 function c255lbase() { // Basepoint
   return [9,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0];
 }
-// return +1, 0, -1 when a is less than, equal, or greater than b
+// return -1, 0, +1 when a is less than, equal, or greater than b
 function c255lbigintcmp(a, b) {
  // The following code is a bit tricky to avoid code branching
   var c;
