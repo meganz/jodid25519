@@ -83,6 +83,9 @@ function c255lzero() {
 function c255lone() {
   return [1,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0];
 }
+function c255lbase() { // Basepoint
+  return [9,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0];
+}
 // return +1, 0, -1 when a is less than, equal, or greater than b
 function c255lbigintcmp(a, b) {
  // The following code is a bit tricky to avoid code branching
@@ -441,14 +444,9 @@ function curve25519b32(a, b) {
   return c255lbase32encode(curve25519(c255lbase32decode(a), c255lbase32decode(b)));
 }
 
-function c255lformcomp(form) {
-  with (form) {
-    resultkey.value = curve25519b32(privatekey.value, publickey.value);
-  }
-}
-
 function curve25519(f, c) {
+    if (!c) { c = c255lbase(); }
     f[0]   &= 0xFFF8;
-    f[15]  = (f[15] & 0x7FFF) | 0x4000;
+    f[15]   = (f[15] & 0x7FFF) | 0x4000;
     return curve25519_raw(f, c);
 }

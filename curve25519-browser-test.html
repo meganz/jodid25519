@@ -89,6 +89,9 @@ function c255lzero() {
 function c255lone() {
   return [1,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0];
 }
+function c255lbase() { // Basepoint
+  return [9,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0];
+}
 // return +1, 0, -1 when a is less than, equal, or greater than b
 function c255lbigintcmp(a, b) {
  // The following code is a bit tricky to avoid code branching
@@ -444,16 +447,11 @@ function curve25519_raw(f, c) {
 }
 
 function curve25519b32(a, b) {
-  return c255lbase32encode(curve25519(c255lbase32decode(a), c255lbase32decode(b)));
-}
-
-function c255lformcomp(form) {
-  with (form) {
-    resultkey.value = curve25519b32(privatekey.value, publickey.value);
-  }
+  return c255lbase32encode(curve25519(c255lbase32decode(a), b && c255lbase32decode(b)));
 }
 
 function curve25519(f, c) {
+    if (!c) { c = c255lbase(); }
     f[0]   &= 0xFFF8;
     f[15]  = (f[15] & 0x7FFF) | 0x4000;
     return curve25519_raw(f, c);
@@ -467,12 +465,12 @@ Note: all the keys are expressed in base-32 encoding.
 <form name="curve25519form1">
 Public key: <input style="text-align:right" type="text" name="publickey" size=64 /><br />
 Your private key: <input style="text-align:right" type="password" name="privatekey" size=64 /><br />
-<input type=button onClick="javascript:c255lformcomp(curve25519form1)" value="Compute signature" /><input style="text-align:right" type=text name="resultkey" value="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" size=64 />
+<input type=button onClick="javascript:this.parentNode.resultkey.value=curve25519b32(this.parentNode.privatekey.value,this.parentNode.publickey.value)" value="Compute signature" /><input style="text-align:right" type=text name="resultkey" value="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" size=64 />
 </form>
 <h2>Compute your public key from your private key</h2>
 <form name="curve25519form2">
-Your private key: <input style="text-align:right" type="password" name="privatekey" size=64 /><input type=hidden name="publickey" size=64 value="j" /><br />
-<input type=button onClick="javascript:c255lformcomp(curve25519form2)" value="Compute public key" /><input style="text-align:right" type=text name="resultkey" value="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" size=64 /><br />
+Your private key: <input style="text-align:right" type="password" name="privatekey" size=64 /><br />
+<input type=button onClick="javascript:this.parentNode.resultkey.value=curve25519b32(this.parentNode.privatekey.value)" value="Compute public key" /><input style="text-align:right" type=text name="resultkey" value="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" size=64 /><br />
 </form>
 <h2>Compute keys from passphrase</h2>
 <form name="curve25519form3">

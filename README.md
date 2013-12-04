@@ -3,10 +3,10 @@ curve255js
 
 A sample Javascript implementation of the Curve25519 elliptic cryptography function by Daniel J. Bernstein.
 
-```curve25519``` is the main function provided:
-
+Synopsis:
 ````javascript
-var shared_secret = curve25519(private_secret, public_key);
+var my_public_key = curve25519(my_secret);
+var shared_secret = curve25519(my_secret, public_key);
 ````
 
 As in curve25519-donna, some bits in the private key are altered to harden the operation of the function.
