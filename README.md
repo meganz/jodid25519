@@ -19,6 +19,19 @@ key = arr[0] + arr[1] × 2^16 + arr[2] × 2^32 + … + arr[15] × 2^(16*15)
 
 Please note that, while the main function is free of conditional branching, its actual constant-time operation is dependent on the Javascript implementation of numerical operations being also constant-time.
 
+
+Contributors
+------------
+
+Among the contributors, in no particular order:
+
+[liliakai](https://github.com/liliakai): spotted an unused argument in some of the functions
+
+[RyanC](https://github.com/ryancdotorg): removed dependency of a function to the Javascript Math library
+
+If you are one of the contributors and want to add yourself or change the information here, please do submit a pull request.
+
+
 Copyright and MIT licensing
 ---------------------------
 
