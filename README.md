@@ -25,6 +25,8 @@ Contributors
 
 Among the contributors, in no particular order:
 
+Graydon Hoare: suggested clamping the private key by default for increased safety and uniformity with other implementations.
+
 [liliakai](https://github.com/liliakai): spotted an unused argument in some of the functions
 
 [RyanC](https://github.com/ryancdotorg): removed dependency of a function to the Javascript Math library
