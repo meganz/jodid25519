@@ -89,15 +89,20 @@ function c255lbase() { // Basepoint
 // return -1, 0, +1 when a is less than, equal, or greater than b
 function c255lbigintcmp(a, b) {
  // The following code is a bit tricky to avoid code branching
-  var c;
+  var c, abs_r, mask;
   var r = 0;
   for (c = 15; c >= 0; c--) {
     var x = a[c];
     var y = b[c];
     r = r + (x - y)*(1 - r*r);
-    r = Math.round(2 * r / (Math.abs(r) + 1));
+    // http://graphics.stanford.edu/~seander/bithacks.html#IntegerAbs
+    // correct for [-294967295, 294967295]
+    mask = r >> 31;
+    abs_r = (r + mask) ^ mask;
+    // http://stackoverflow.com/questions/596467/how-do-i-convert-a-number-to-an-integer-in-javascript
+    // this rounds towards zero
+    r = ~~(2 * r / (abs_r + 1));
   }
-  r = Math.round(2 * r / (Math.abs(r) + 1));
   return r;
 }
 function c255lbigintadd(a, b) {
