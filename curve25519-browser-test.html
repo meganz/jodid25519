@@ -14,7 +14,7 @@ function curve25519b32(a, b) {
 </script>
 </head>
 <body style="text-align:right;">
-<h2>Generate a shared secret</h2>
+<h2>Generate a shared secret with Curve25519</h2>
   Note: the keys accepted and printed in this form are base-32 encoded.
   <br/>
 <form>
@@ -24,5 +24,7 @@ My private key: <input style="text-align:right" type="password" name="privatekey
 Public key: <input style="text-align:right" type="text" name="publickey" size=64 /><br />
 <input type=button onClick="javascript:this.parentNode.sharedsecret.value=curve25519b32(this.parentNode.privatekey.value,this.parentNode.publickey.value)" value="Compute shared secret" /><input style="text-align:right" type=text name="sharedsecret" value="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" size=64 />
 </form>
+
+<a href="https://github.com/rev22/curve255js">Source code on GitHub</a>
 </body>
 </html>
