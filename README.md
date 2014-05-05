@@ -1,7 +1,7 @@
 curve255js
 ==========
 
-A sample Javascript implementation of the Curve25519 elliptic cryptography function by Daniel J. Bernstein.
+Javascript implementation of the Curve25519 elliptic cryptography function by Daniel J. Bernstein.
 
 Synopsis:
 ````javascript
@@ -37,7 +37,7 @@ If you are one of the contributors and want to add yourself or change the inform
 Copyright and MIT licensing
 ---------------------------
 
-Copyright (c) 2007, 2013 Michele Bini
+Copyright (c) 2007, 2013, 2014 Michele Bini
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
