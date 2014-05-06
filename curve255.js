@@ -24,7 +24,7 @@ function c255lbase32encode(n) {
   var c;
   var r = "";
   for (c = 0; c < 255; c+=5) {
-    r = c255lbase32chars.substr(c255lgetbit(n, c) + c255lgetbit(n, c+1)*2 + c255lgetbit(n, c+2)*4 + c255lgetbit(n, c+3)*8 + c255lgetbit(n, c+4)*16, 1) + r;
+    r = c255lbase32chars.substr(c255lgetbit(n, c) + (c255lgetbit(n, c+1) << 1) + (c255lgetbit(n, c+2) << 2) + (c255lgetbit(n, c+3) << 3) + (c255lgetbit(n, c+4) << 4), 1) + r;
   }
   return r;
 }
@@ -49,7 +49,7 @@ function c255lhexencode(n) {
   var c;
   var r = "";
   for (c = 0; c < 255; c+=4) {
-    r = c255lhexchars.substr(c255lgetbit(n, c) + c255lgetbit(n, c+1)*2 + c255lgetbit(n, c+2)*4 + c255lgetbit(n, c+3)*8, 1) + r;
+    r = c255lhexchars.substr(c255lgetbit(n, c) + (c255lgetbit(n, c+1) << 1) + (c255lgetbit(n, c+2) << 2) + (c255lgetbit(n, c+3) << 3), 1) + r;
   }
   return r;
 }
@@ -101,7 +101,7 @@ function c255lbigintcmp(a, b) {
     abs_r = (r + mask) ^ mask;
     // http://stackoverflow.com/questions/596467/how-do-i-convert-a-number-to-an-integer-in-javascript
     // this rounds towards zero
-    r = ~~(2 * r / (abs_r + 1));
+    r = ~~((r << 1) / (abs_r + 1));
   }
   return r;
 }
@@ -150,6 +150,7 @@ function c255lbigintsub(a, b) {
 
 function c255lsqr8h(a7, a6, a5, a4, a3, a2, a1, a0) {
   // 'division by 0x10000' can not be replaced by '>> 16' because more than 32 bits of precision are needed
+  // similarly 'multiplication by 2' cannot be replaced by '<< 1'
   var r = [];
   var v;
   r[0] = (v = a0*a0) & 0xffff;
@@ -252,7 +253,7 @@ c255lmulmodp(a, b) {
 function c255lreduce(a) {
   var v = a[15];
   a[15] = v & 0x7fff;
-  v = (0|(v / 0x8000)) * 19;
+  v = (0|(v >>> 15)) * 19;
   a[0] = (v += a[0]) & 0xffff;
   v = v >>> 16;
   a[1] = (v += a[1]) & 0xffff;
@@ -289,7 +290,7 @@ function c255lreduce(a) {
 function c255laddmodp(a, b) {
   var r = [];
   var v;
-  r[0] = (v = ((0|(a[15] / 0x8000)) + (0|(b[15] / 0x8000))) * 19 + a[0] + b[0]) & 0xffff;
+  r[0] = (v = ((0|(a[15] >>> 15)) + (0|(b[15] >>> 15))) * 19 + a[0] + b[0]) & 0xffff;
   r[1] = (v = (v >>> 16) + a[1] + b[1]) & 0xffff;
   r[2] = (v = (v >>> 16) + a[2] + b[2]) & 0xffff;
   r[3] = (v = (v >>> 16) + a[3] + b[3]) & 0xffff;
@@ -311,7 +312,7 @@ function c255laddmodp(a, b) {
 function c255lsubmodp(a, b) {
   var r = [];
   var v;
-  r[0] = (v = 0x80000 + ((0|(a[15] / 0x8000)) - (0|(b[15] / 0x8000)) - 1) * 19 + a[0] - b[0]) & 0xffff;
+  r[0] = (v = 0x80000 + ((0|(a[15] >>> 15)) - (0|(b[15] >>> 15)) - 1) * 19 + a[0] - b[0]) & 0xffff;
   r[1] = (v = (v >>> 16) + 0x7fff8 + a[1] - b[1]) & 0xffff;
   r[2] = (v = (v >>> 16) + 0x7fff8 + a[2] - b[2]) & 0xffff;
   r[3] = (v = (v >>> 16) + 0x7fff8 + a[3] - b[3]) & 0xffff;
