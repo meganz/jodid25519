@@ -30,7 +30,7 @@ Among the contributors, in no particular order:
 
 [RyanC](https://github.com/ryancdotorg): removed dependency of a function to the Javascript Math library
 
-[Guy Kloss](https://github.com/graydon): performance improvements through bit-shift operations
+[Guy Kloss](https://github.com/pohutukawa): performance improvements through bit-shift operations
 
 If you are one of the contributors and want to add yourself or change the information here, please do submit a pull request.
 
