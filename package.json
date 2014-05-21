@@ -1,0 +1,46 @@
+{
+  "name": "ed25519",
+  "version": "0.0.0",
+  "description": "Ed25519 - digital signatures based on Curve25519",
+  "main": "index.js",
+  "directories": {
+    "doc": "doc",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "karma start karma.conf.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@code.developers.mega.co.nz:gk/ed25519_js.git"
+  },
+  "keywords": [
+    "mpEnc",
+    "messaging",
+    "encryption"
+  ],
+  "author": "Ron Garret, Guy K. Kloss",
+  "license": "MIT",
+  "gitHead": "064cfd52ef69822d4bacf3b18e6979c49a3ca8ed",
+  "readmeFilename": "README.md",
+  "devDependencies": {
+    "karma-script-launcher": "~0.1.0",
+    "karma-chrome-launcher": "~0.1.2",
+    "karma-firefox-launcher": "~0.1.3",
+    "karma-html2js-preprocessor": "~0.1.0",
+    "karma-jasmine": "~0.1.5",
+    "karma-phantomjs-launcher": "~0.1.1",
+    "karma": "~0.10.9",
+    "mocha": "~1.17.1",
+    "karma-mocha": "~0.1.1",
+    "karma-chai": "0.0.2",
+    "karma-chai-plugins": "0.2.0",
+    "karma-sinon": "~1.0.0",
+    "karma-coverage": "~0.1.5",
+    "istanbul": "~0.2.4",
+    "ibrik": "~1.0.1",
+    "dateformat": "~1.0.7-1.2.3",
+    "sinon": "~1.9.0",
+    "jsdoc": "~3.3.0"
+  }
+}
