@@ -9,7 +9,7 @@ var _tu = {};
     "use strict";
 
     _tu.encodeVector = function(k) {
-        var hexKey = c255lhexencode(k);
+        var hexKey = curve255.hexencode(k);
         // Pad with '0' at the front.
         hexKey = new Array(64 + 1 - hexKey.length).join('0') + hexKey;
         // Invert bytes.
@@ -20,6 +20,6 @@ var _tu = {};
         // assert(length(x) == 64);
         // Invert bytes.
         var hexKey = v.split(/(..)/).reverse().join('');
-        return c255lhexdecode(hexKey);
+        return curve255.hexdecode(hexKey);
     };
 })();

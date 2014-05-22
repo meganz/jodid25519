@@ -18,6 +18,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+var curve255 = {};
+
+(function() {
+  "use strict";
+
 var c255lbase32chars = "abcdefghijklmnopqrstuvwxyz234567";
 var c255lbase32values = {"a":0, "b":1, "c":2, "d":3, "e":4, "f":5, "g":6, "h":7, "i":8, "j":9, "k":10, "l":11, "m":12, "n":13, "o":14, "p":15, "q":16, "r":17, "s":18, "t":19, "u":20, "v":21, "w":22, "x":23, "y":24, "z":25, "2":26, "3":27, "4":28, "5":29, "6":30, "7":31 };
 function c255lbase32encode(n) {
@@ -459,3 +464,55 @@ function curve25519(f, c) {
     f[15]   = (f[15] & 0x7FFF) | 0x4000;
     return curve25519_raw(f, c);
 }
+
+/**
+ * Computes the scalar product of two points on the curve 25519.
+ * Before multiplication, some bit operations are applied to `f` to force it
+ * to points on the curve (in case it is not a valid point).
+ *
+ * @param f {array}
+ *     Private point on the curve.
+ * @param c {array}
+ *     Public point on the curve. If not given, the curve's base point is used.
+ * @returns {array}
+ *     Key point resulting from scalar product.
+ */
+curve255.curve25519 = curve25519;
+
+
+/**
+ * Computes the raw scalar product of two points on the curve 25519.
+ *
+ * @param f {array}
+ *     Private point on the curve.
+ * @param c {array}
+ *     Public point on the curve. If not given, the curve's base point is used.
+ * @returns {array}
+ *     Key point resulting from scalar product.
+ */
+curve255.curve25519_raw = curve25519_raw;
+
+
+/**
+ * Encodes the internal representation of a point to a hex representation
+ * (using the internally used byte order).
+ *
+ * @param n {array}
+ *     Array representation of curve point.
+ * @returns {string}
+ *     Hexadecimal string representation of curve point.
+ */
+curve255.hexencode = c255lhexencode;
+
+
+/**
+ * Decodes a hex representation of a point (of the internally used byte order)
+ * to an internally compatible array representation.
+ *
+ * @param n {string}
+ *     Hexadecimal string representation of curve point.
+ * @returns {array}
+ *     Array representation of curve point.
+ */
+curve255.hexdecode = c255lhexdecode;
+})();

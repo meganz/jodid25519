@@ -23,7 +23,7 @@
     var MAX_TEST_DURATION = 5000; // Duration in milliseconds.
     
     function xor(a, b) {
-        var result = c255lzero();
+        var result = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
         for (var i = 0; i < 16; i++) {
             result[i] = a[i] ^ b[i];
         }
@@ -31,15 +31,15 @@
     }
     
     function doit(e, k) {
-        var ek = curve25519_raw(e, k);
+        var ek = curve255.curve25519_raw(e, k);
         return ek;
     }
     
     describe("curve25519 tests)", function() {
         it('run tests', function() {
-            var e1 = c255lhexdecode('3');
-            var e2 = c255lhexdecode('5');
-            var k = c255lhexdecode('9');
+            var e1 = curve255.hexdecode('3');
+            var e2 = curve255.hexdecode('5');
+            var k = curve255.hexdecode('9');
             var start = Date.now();
             var l = 0;
             for (l = 0; Date.now() - start < MAX_TEST_DURATION && l < 1000000000; l++) {

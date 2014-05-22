@@ -62,7 +62,7 @@
                     var vector = _td.testVectors[i];
                     var e = _tu.decodeVector(vector[0]);
                     var k = _tu.decodeVector(vector[1]);
-                    timeIt(timings, function() { return curve25519(e, k); });
+                    timeIt(timings, function() { return curve255.curve25519(e, k); });
                 }
                 console.log('Duration per curve25519() call ' + timingStatsText(timings));
             });
@@ -76,7 +76,7 @@
                     var vector = _td.testVectors[i];
                     var e = _tu.decodeVector(vector[0]);
                     var k = _tu.decodeVector(vector[1]);
-                    timeIt(timings, function() { return curve25519_raw(e, k); });
+                    timeIt(timings, function() { return curve255.curve25519_raw(e, k); });
                 }
                 console.log('Duration per curve25519_raw() call ' + timingStatsText(timings));
             });
