@@ -253,7 +253,7 @@ c255lmulmodp(a, b) {
 function c255lreduce(a) {
   var v = a[15];
   a[15] = v & 0x7fff;
-  v = (0|(v >>> 15)) * 19;
+  v = (0|(v / 0x8000)) * 19; // >32-bits of precision are required here so '/ 0x8000' can not be replaced by the arithmetic equivalent '>>> 15'
   a[0] = (v += a[0]) & 0xffff;
   v = v >>> 16;
   a[1] = (v += a[1]) & 0xffff;

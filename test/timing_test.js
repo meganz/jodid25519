@@ -53,23 +53,32 @@
     if (window.CURVE25519_TEST_TIMING) {
         // Only run this if we're doing timing tests.
         describe("Curve25519 timing tests)", function() {
-            it('scalar multiplication', function() {
+            it('curve25519()', function() {
                 var timings = [];
                 for (var i = 0; arraySum(timings) < MAX_TEST_DURATION
                         && i < NUM_TESTS || i < MIN_TESTS; i++) {
                     // Fields on each record in vector:
-                    // sk, pk, ss
+                    // e, k, ek
                     var vector = _td.testVectors[i];
-                    var ownPrivKey = c255lhexdecode(vector[0]);
-                    var otherPubKey = c255lhexdecode(vector[1]);
-                    var sessionKey = vector[2];
-                    var check = timeIt(timings, function() {
-                        var result = curve25519(otherPubKey, ownPrivKey);
-                        return c255lhexencode(result);
-                    });
-                    assert.strictEqual(check, sessionKey, 'mismatch on test ' + i);
+                    var e = _tu.decodeVector(vector[0]);
+                    var k = _tu.decodeVector(vector[1]);
+                    timeIt(timings, function() { return curve25519(e, k); });
                 }
-                console.log('Duration per scalar multiplication ' + timingStatsText(timings));
+                console.log('Duration per curve25519() call ' + timingStatsText(timings));
+            });
+            
+            it('curve25519_raw()', function() {
+                var timings = [];
+                for (var i = 0; arraySum(timings) < MAX_TEST_DURATION
+                        && i < NUM_TESTS || i < MIN_TESTS; i++) {
+                    // Fields on each record in vector:
+                    // e, k, ek
+                    var vector = _td.testVectors[i];
+                    var e = _tu.decodeVector(vector[0]);
+                    var k = _tu.decodeVector(vector[1]);
+                    timeIt(timings, function() { return curve25519_raw(e, k); });
+                }
+                console.log('Duration per curve25519_raw() call ' + timingStatsText(timings));
             });
         });
     }

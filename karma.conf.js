@@ -16,6 +16,7 @@ module.exports = function(config) {
         // Ours.
         {pattern: '*.js', included: true},
         'test/test_vectors.js',
+        'test/test_utils.js',
         (process.env.CURVE25519_TEST_TIMING) ? 'test/config/test_timing.js' : 'test/config/test_timing_off.js',
         {pattern: 'test/**/*_test.js', included: true},
     ],
