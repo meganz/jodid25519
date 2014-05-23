@@ -7,20 +7,21 @@
 /*
  * Created: 22 May 2014 Guy K. Kloss <gk@mega.co.nz>
  *
- * (c) 2014 by Mega Limited, Wellsford, New Zealand
- *     http://mega.co.nz/
- *     MIT License.
+ * (c) 2014 by the authors under the MIT License.
  *
  * You should have received a copy of the license along with this
  * program.
  */
 
-(function() {
+define([
+    "jodid25519",
+    "chai",
+], function(ns, chai) {
     "use strict";
 
     var assert = chai.assert;
-
-    var MAX_TEST_DURATION = 5000; // Duration in milliseconds.
+    
+    var MAX_TEST_DURATION = 2000; // Duration in milliseconds.
     
     function xor(a, b) {
         var result = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -31,15 +32,15 @@
     }
     
     function doit(e, k) {
-        var ek = curve255.curve25519_raw(e, k);
+        var ek = ns.curve25519_raw(e, k);
         return ek;
     }
     
     describe("curve25519 tests)", function() {
         it('run tests', function() {
-            var e1 = curve255.hexdecode('3');
-            var e2 = curve255.hexdecode('5');
-            var k = curve255.hexdecode('9');
+            var e1 = ns.hexdecode('3');
+            var e2 = ns.hexdecode('5');
+            var k = ns.hexdecode('9');
             var start = Date.now();
             var l = 0;
             for (l = 0; Date.now() - start < MAX_TEST_DURATION && l < 1000000000; l++) {
@@ -55,4 +56,4 @@
             console.log('Processed ' + (4 * l) + ' test-curve25519.c test vectors.');
         });
     });
-})();
+});

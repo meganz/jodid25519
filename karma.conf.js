@@ -6,19 +6,24 @@ module.exports = function(config) {
     basePath: '',
 
     // Frameworks to use.
-    frameworks: ['mocha', 'chai', 'sinon'],
+    frameworks: ['requirejs', 'mocha', 'chai', 'sinon'],
 
     // List of files/patterns to load in the browser.
+    // {included: false} files are loaded by requirejs
     files: [
         // Dependency-based load order of lib/ modules.
         // (no external dependencies)
+        // karma-sinon does not yet integrate with RequireJS, so we have to do this hack.
+        {pattern: 'node_modules/sinon/lib/**/*.js', included: false},
 
         // Ours.
-        {pattern: '*.js', included: true},
+        'src/config.js',
+        {pattern: 'src/**/*.js', included: false},
         'test/test_vectors.js',
         'test/test_utils.js',
-        (process.env.CURVE25519_TEST_TIMING) ? 'test/config/test_timing.js' : 'test/config/test_timing_off.js',
-        {pattern: 'test/**/*_test.js', included: true},
+        (process.env.TEST_TIMING) ? 'test/config/test_timing.js' : 'test/config/test_timing_off.js',
+        {pattern: 'test/**/*_test.js', included: false},
+        'test/test_main.js',
     ],
 
     // List of files to exclude.
@@ -33,7 +38,7 @@ module.exports = function(config) {
     // (Do not include tests or libraries.
     // These files will be instrumented by Istanbul.)
     preprocessors: {
-        '*.js': ['coverage']
+        'src/**/*.js': ['coverage']
     },
 
     // Coverage configuration
