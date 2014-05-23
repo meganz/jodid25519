@@ -59,8 +59,8 @@ define([
                     // Fields on each record in vector:
                     // e, k, ek
                     var vector = _td.testVectors[i];
-                    var e = ns.decodeVector(vector[0]);
-                    var k = ns.decodeVector(vector[1]);
+                    var e = ns.hexDecodeVector(vector[0]);
+                    var k = ns.hexDecodeVector(vector[1]);
                     timeIt(timings, function() { return ns.curve25519(e, k); });
                 }
                 console.log('Duration per curve25519() call ' + timingStatsText(timings));
@@ -73,8 +73,8 @@ define([
                     // Fields on each record in vector:
                     // e, k, ek
                     var vector = _td.testVectors[i];
-                    var e = ns.decodeVector(vector[0]);
-                    var k = ns.decodeVector(vector[1]);
+                    var e = ns.hexDecodeVector(vector[0]);
+                    var k = ns.hexDecodeVector(vector[1]);
                     timeIt(timings, function() { return ns.curve25519_raw(e, k); });
                 }
                 console.log('Duration per curve25519_raw() call ' + timingStatsText(timings));

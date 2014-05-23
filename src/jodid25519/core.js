@@ -30,78 +30,6 @@ define([
      * </p>
      */
     var ns = {};
-    
-    var _base32chars = "abcdefghijklmnopqrstuvwxyz234567";
-    var _base32values = {
-            "a" : 0,
-            "b" : 1,
-            "c" : 2,
-            "d" : 3,
-            "e" : 4,
-            "f" : 5,
-            "g" : 6,
-            "h" : 7,
-            "i" : 8,
-            "j" : 9,
-            "k" : 10,
-            "l" : 11,
-            "m" : 12,
-            "n" : 13,
-            "o" : 14,
-            "p" : 15,
-            "q" : 16,
-            "r" : 17,
-            "s" : 18,
-            "t" : 19,
-            "u" : 20,
-            "v" : 21,
-            "w" : 22,
-            "x" : 23,
-            "y" : 24,
-            "z" : 25,
-            "2" : 26,
-            "3" : 27,
-            "4" : 28,
-            "5" : 29,
-            "6" : 30,
-            "7" : 31
-    };
-    function _base32encode(n) {
-        var c;
-        var r = "";
-        for (c = 0; c < 255; c += 5) {
-            r = _base32chars.substr(_getbit(n, c)
-                                    + (_getbit(n, c + 1) << 1)
-                                    + (_getbit(n, c + 2) << 2)
-                                    + (_getbit(n, c + 3) << 3)
-                                    + (_getbit(n, c + 4) << 4), 1)
-                                    + r;
-        }
-        return r;
-    }
-    function _base32decode(n) {
-        var c = 0;
-        var r = _zero();
-        var l = n.length;
-        for (c = 0; (l > 0) && (c < 255); c += 5) {
-            l--;
-            var v = _base32values[n.substr(l, 1)];
-            _setbit(r, c, v & 1);
-            v = v >> 1;
-            _setbit(r, c + 1, v & 1);
-            v = v >> 1;
-            _setbit(r, c + 2, v & 1);
-            v = v >> 1;
-            _setbit(r, c + 3, v & 1);
-            v = v >> 1;
-            _setbit(r, c + 4, v & 1);
-           }
-        return r;
-    }
-
-    var _prime = [0xffff - 18, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff,
-                  0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff,
-                  0xffff, 0xffff, 0xffff, 0x7fff];
 
     function _setbit(n, c, v) {
         var i = c >> 4;
@@ -114,15 +42,16 @@ define([
         return (n[c >> 4] >> (c & 0xf)) & 1;
     }
 
-    function _zero() {
+    function _ZERO() {
         return [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     }
 
-    function _one() {
+    function _ONE() {
         return [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     }
 
-    function _base() { // Basepoint
+    // Basepoint.
+    function _BASE() {
         return [9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     }
  
@@ -192,9 +121,8 @@ define([
  
     function _sqr8h(a7, a6, a5, a4, a3, a2, a1, a0) {
         // 'division by 0x10000' can not be replaced by '>> 16' because
-        // more
-        // than 32 bits of precision are needed
-        // similarly 'multiplication by 2' cannot be replaced by '<< 1'
+        // more than 32 bits of precision are needed similarly
+        // 'multiplication by 2' cannot be replaced by '<< 1'
         var r = [];
         var v;
         r[0] = (v = a0 * a0) & 0xffff;
@@ -272,8 +200,7 @@ define([
     function _mul8h(a7, a6, a5, a4, a3, a2, a1, a0, b7, b6, b5, b4, b3,
                     b2, b1, b0) {
         // 'division by 0x10000' can not be replaced by '>> 16' because
-        // more
-        // than 32 bits of precision are needed
+        // more than 32 bits of precision are needed
         var r = [];
         var v;
         r[0] = (v = a0 * b0) & 0xffff;
@@ -361,11 +288,9 @@ define([
     function _reduce(a) {
         var v = a[15];
         a[15] = v & 0x7fff;
-        v = (0 | (v / 0x8000)) * 19; // >32-bits of precision are
-        // required
-        // here so '/ 0x8000' can not be
-        // replaced by the arithmetic equivalent
-        // '>>> 15'
+        // >32-bits of precision are required here so '/ 0x8000' can not be
+        // replaced by the arithmetic equivalent '>>> 15'
+        v = (0 | (v / 0x8000)) * 19;
         a[0] = (v += a[0]) & 0xffff;
         v = v >>> 16;
         a[1] = (v += a[1]) & 0xffff;
@@ -452,9 +377,7 @@ define([
         var i = 250;
         while (--i) {
             a = _sqrmodp(a);
-            // if (i > 240) { tracev("invmodp a", a); }
             a = _mulmodp(a, c);
-            // if (i > 240) { tracev("invmodp a 2", a); }
         }
         a = _sqrmodp(a);
         a = _sqrmodp(a);
@@ -469,8 +392,7 @@ define([
  
     function _mulasmall(a) {
         // 'division by 0x10000' can not be replaced by '>> 16' because
-        // more
-        // than 32 bits of precision are needed
+        // more than 32 bits of precision are needed
         var m = 121665;
         var r = [];
         var v;
@@ -496,34 +418,24 @@ define([
  
     function _dbl(x, z) {
         var x_2, z_2, m, n, o;
-        // /tracev("dbl x", x);
-        // /tracev("dbl z", z);
         m = _sqrmodp(_addmodp(x, z));
-        // tracev("dbl m", _addmodp(x, z));
         n = _sqrmodp(_submodp(x, z));
-        // /tracev("dbl n", n);
         o = _submodp(m, n);
-        // /tracev("dbl o", o);
         x_2 = _mulmodp(n, m);
-        // tracev("dbl x_2", x_2);
         z_2 = _mulmodp(_addmodp(_mulasmall(o), m), o);
-        // tracev("dbl z_2", z_2);
         return [x_2, z_2];
     }
  
     function _sum(x, z, x_p, z_p, x_1) {
-        var x_3, z_3, k, l, p, q;
-        // tracev("sum x", x);
-        // tracev("sum z", z);
+        var x_3, z_3, p, q;
         p = _mulmodp(_submodp(x, z), _addmodp(x_p, z_p));
         q = _mulmodp(_addmodp(x, z), _submodp(x_p, z_p));
-        // tracev("sum p", p);
-        // tracev("sum q", q);
         x_3 = _sqrmodp(_addmodp(p, q));
         z_3 = _mulmodp(_sqrmodp(_submodp(p, q)), x_1);
         return [x_3, z_3];
     }
     
+    // Expose some functions to the outside through this name space.
     ns.getbit = _getbit;
     ns.setbit = _setbit;
     ns.invmodp = _invmodp;
@@ -531,9 +443,9 @@ define([
     ns.reduce = _reduce;
     ns.dbl = _dbl;
     ns.sum = _sum;
-    ns.zero = _zero;
-    ns.one = _one;
-    ns.base = _base;
+    ns.ZERO = _ZERO;
+    ns.ONE = _ONE;
+    ns.BASE = _BASE;
     
     return ns;
 });

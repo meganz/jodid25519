@@ -38,9 +38,9 @@ define([
     
     describe("curve25519 tests)", function() {
         it('run tests', function() {
-            var e1 = ns.hexdecode('3');
-            var e2 = ns.hexdecode('5');
-            var k = ns.hexdecode('9');
+            var e1 = ns.hexDecodeVector('3');
+            var e2 = ns.hexDecodeVector('5');
+            var k = ns.hexDecodeVector('9');
             var start = Date.now();
             var l = 0;
             for (l = 0; Date.now() - start < MAX_TEST_DURATION && l < 1000000000; l++) {
