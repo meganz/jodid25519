@@ -6,5 +6,5 @@ navigator = { appName: "nodejs" };
 // Load our library.
 var jodid25519 = require(process.argv[2]);
 
-// Febug print our public API.
+// Debug print our public API.
 console.log(jodid25519);
