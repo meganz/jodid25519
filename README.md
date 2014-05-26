@@ -9,7 +9,7 @@ var my_public_key = curve25519(my_secret);
 var shared_secret = curve25519(my_secret, public_key);
 ````
 
-As in curve25519-donna, some bits in the private key are altered to harden the operation of the function.  If you need the private key to be unmodified for your protocol, use `curve25519_raw(private_key, public_key)`.
+As in curve25519-donna, some bits in the private key are altered to harden the operation of the function.
 
 Private and public keys are represented by arrays of 16-bit values, starting from the least significant ones:
 
@@ -19,12 +19,13 @@ key = arr[0] + arr[1] × 2^16 + arr[2] × 2^32 + … + arr[15] × 2^(16 × 15)
 
 Please note that, while the main function is free of conditional branching, its actual constant-time operation is dependent on the Javascript implementation of numerical operations being also constant-time.
 
+
 Contributors
 ------------
 
 Among the contributors, in no particular order:
 
-[Graydon Hoare](https://github.com/graydon): suggested clamping the private key by default for increased safety and uniformity with other implementations.
+Graydon Hoare: suggested clamping the private key by default for increased safety and uniformity with other implementations.
 
 [liliakai](https://github.com/liliakai): spotted an unused argument in some of the functions
 

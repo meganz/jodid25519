@@ -1,0 +1,19 @@
+{
+	"templates": {
+	    "applicationName": "curve255 Library",
+	    "disqus": "",
+	    "googleAnalytics": "",
+	    "openGraph": {
+	        "title": "curve255 Library",
+	        "type": "website",
+	        "image": "",
+	        "site_name": "",
+	        "url": ""
+	    },
+	    "meta": {
+	        "title": "curve255 Library",
+	        "description": "",
+	        "keyword": ""
+	    }
+	}
+}
