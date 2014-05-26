@@ -1,9 +1,8 @@
 /*
- * Copyright (c) 2007, 2013, 2014 Michele Bini
  * Copyright (c) 2014 Mega Limited
  * under the MIT License.
  * 
- * Authors: Guy K. Kloss, Michele Bini
+ * Authors: Guy K. Kloss
  * 
  * You should have received a copy of the license along with this program.
  */
