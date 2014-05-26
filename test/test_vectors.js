@@ -4,12 +4,12 @@
  */
 
 /*
- * Created: 21 May 2014 Guy K. Kloss <gk@mega.co.nz>
- *
- * (c) 2014 by the authors under the MIT License.
- *
- * You should have received a copy of the license along with this
- * program.
+ * Copyright (c) 2014 Mega Limited
+ * under the MIT License.
+ * 
+ * Authors: Guy K. Kloss
+ * 
+ * You should have received a copy of the license along with this program.
  */
 
 var _td = {};
@@ -17,16 +17,25 @@ var _td = {};
 // NaCl test vectors.
 // Conveniently poached from
 // https://github.com/cryptosphere/rbnacl/blob/master/lib/rbnacl/test_vectors.rb
-_td.ALICE_PRIV = '77076d0a7318a57d3c16c17251b26645df4c2f87ebc0992ab177fba51db92c2a';
-_td.ALICE_PUB  = '8520f0098930a754748b7ddcb43ef75a0dbf3a0d26381af4eba4a98eaa9b4e6a';
-_td.BOB_PRIV   = '5dab087e624a8a4b79e17f8b83800ee66f3bb1292618b6fd1c2f8b27ff88e0eb';
-_td.BOB_PUB    = 'de9edb7d7b7dc1b4d35b61c2ece435373f8343c85b78674dadfc7e146f882b4f';
-_td.SECRET_KEY = '4a5d9d5ba4ce2de1728e3bf480350f25e07e21c947d19e3376f09b3c1e161742';
+_td.ALICE_PRIV_HEX = '77076d0a7318a57d3c16c17251b26645df4c2f87ebc0992ab177fba51db92c2a';
+_td.ALICE_PRIV = 'dwdtCnMYpX08FsFyUbJmRd9ML4frwJkqsXf7pR25LCo=';
+_td.ALICE_PUB_HEX  = '8520f0098930a754748b7ddcb43ef75a0dbf3a0d26381af4eba4a98eaa9b4e6a';
+_td.ALICE_PUB = 'hSDwCYkwp1R0i33ctD73Wg2/Og0mOBr066SpjqqbTmo=';
+_td.BOB_PRIV_HEX   = '5dab087e624a8a4b79e17f8b83800ee66f3bb1292618b6fd1c2f8b27ff88e0eb';
+_td.BOB_PRIV = 'XasIfmJKikt54X+Lg4AO5m87sSkmGLb9HC+LJ/+I4Os=';
+_td.BOB_PUB_HEX    = 'de9edb7d7b7dc1b4d35b61c2ece435373f8343c85b78674dadfc7e146f882b4f';
+_td.BOB_PUB = '3p7bfXt9wbTTW2HC7OQ1Nz+DQ8hbeGdNrfx+FG+IK08=';
+_td.SECRET_KEY_HEX = '4a5d9d5ba4ce2de1728e3bf480350f25e07e21c947d19e3376f09b3c1e161742';           
+_td.SECRET_KEY = 'Sl2dW6TOLeFyjjv0gDUPJeB+IclH0Z4zdvCbPB4WF0I=';
+
+// Curve25519 test vector from DJB's curve25519.impl.check.c.
+_td.CHAIN_10_HEX = 'be4c6208293f811a154b9c42f787dd909f075c611b82c30350edc9fe6e83ad4a';
+_td.CHAIN_10 = 'vkxiCCk/gRoVS5xC94fdkJ8HXGEbgsMDUO3J/m6DrUo=';
 
 // Test data extracted from test-curve25519.c output.
 // Fields on each record: e, k, ek
 // Each field hex encoded.
-_td.testVectors =
+_td.TEST_VECTORS_HEX =
 [['0300000000000000000000000000000000000000000000000000000000000000',
   '0900000000000000000000000000000000000000000000000000000000000000',
   '123c71fbaf030ac059081c62674e82f864ba1bc2914d5345e6ab576d1abc121c'],

@@ -4,12 +4,13 @@
  */
 
 /*
- * Created: 23 May 2014 Guy K. Kloss <gk@mega.co.nz>
- *
- * (c) 2014 by the authors under the MIT License.
- *
- * You should have received a copy of the license along with this
- * program.
+ * Copyright (c) 2007, 2013, 2014 Michele Bini
+ * Copyright (c) 2014 Mega Limited
+ * under the MIT License.
+ * 
+ * Authors: Guy K. Kloss, Michele Bini
+ * 
+ * You should have received a copy of the license along with this program.
  */
 
 define([
@@ -31,6 +32,50 @@ define([
      */
     var ns = {};
 
+    var _HEXCHARS = "0123456789abcdef";
+    
+    function _hexencode(vector) {
+        var result = '';
+        for (var i = vector.length - 1; i >= 0; i--) {
+            var value = vector[i];
+            result += _HEXCHARS.substr((value >>> 12) & 0x0f, 1)
+                    + _HEXCHARS.substr((value >>> 8) & 0x0f, 1)
+                    + _HEXCHARS.substr((value >>> 4) & 0x0f, 1)
+                    + _HEXCHARS.substr(value & 0x0f, 1);
+        }
+        return result;
+    }
+    
+    function _hexdecode(vector) {
+        var result = _ZERO();
+        for (var i = vector.length - 1, l = 0; i >= 0; i -= 4) {
+            result[l] = (_HEXCHARS.indexOf(vector.charAt(i)))
+                      | (_HEXCHARS.indexOf(vector.charAt(i - 1)) << 4)
+                      | (_HEXCHARS.indexOf(vector.charAt(i - 2)) << 8)
+                      | (_HEXCHARS.indexOf(vector.charAt(i - 3)) << 12);
+            l++;
+        }
+        return result;
+    }
+    
+    function _toString(vector) {
+        var result = '';
+        for (var i = 0; i < vector.length; i++) {
+            result += String.fromCharCode(vector[i] & 0xff)
+                    + String.fromCharCode(vector[i] >>> 8);
+        }
+        return result;
+    }
+    
+    function _fromString(vector) {
+        var result = _ZERO();
+        for (var i = 0, l = 0; i < vector.length; i += 2) {
+            result[l] = (vector.charCodeAt(i + 1) << 8) | vector.charCodeAt(i);
+            l++;
+        }
+        return result;
+    }
+    
     function _setbit(n, c, v) {
         var i = c >> 4;
         var a = n[i];
@@ -446,6 +491,11 @@ define([
     ns.ZERO = _ZERO;
     ns.ONE = _ONE;
     ns.BASE = _BASE;
+    ns.toString = _toString;
+    ns.fromString = _fromString;
+    ns.hexencode = _hexencode;
+    ns.hexdecode = _hexdecode;
+    
     
     return ns;
 });
