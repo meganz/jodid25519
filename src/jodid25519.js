@@ -193,12 +193,15 @@ define([
     // Expose some functions to the outside through this name space.
     
     /**
-     * Computes the scalar product of two points on the curve 25519.
-     * Before multiplication, some bit operations are applied to `f` to force it
-     * to points on the curve (in case it is not a valid point).
+     * Computes the scalar product of a point on the curve 25519.
+     *
+     * This function is commonly used for the DH key-exchange protocol.
+     *
+     * Before multiplication, some bit operations are applied to the private key to ensure it is a valid Curve25519 secret key.
+     * It is the user's responsibility is to make sure that the private key is a uniformly random value.
      *
      * @param f {array}
-     *     Private point on the curve.
+     *     Private key.
      * @param c {array}
      *     Public point on the curve. If not given, the curve's base point is used.
      * @returns {array}
@@ -207,10 +210,14 @@ define([
     ns.curve25519 = curve25519;
 
     /**
-     * Computes the raw scalar product of two points on the curve 25519.
+     * Computes the scalar product of a point on the curve 25519.
+     *
+     * This variant does not make sure that the private key is valid.
+     * The user has the responsibility to ensure the private key is valid or that this results in a safe protocol.
+     * Unless you know exactly what you are doing, you should not use this variant, please use 'curve25519' instead.
      *
      * @param f {array}
-     *     Private point on the curve.
+     *     Private key.
      * @param c {array}
      *     Public point on the curve. If not given, the curve's base point is used.
      * @returns {array}
@@ -223,9 +230,9 @@ define([
      * (using the internally used byte order).
      *
      * @param n {array}
-     *     Array representation of curve point.
+     *     Array representation of a key.
      * @returns {string}
-     *     Hexadecimal string representation of curve point.
+     *     Hexadecimal string representation of key.
      */
     ns.hexEncodeVector = _hexEncodeVector;
 
@@ -234,31 +241,29 @@ define([
      * to an internally compatible array representation.
      *
      * @param n {string}
-     *     Hexadecimal string representation of curve point.
+     *     Hexadecimal string representation of a key.
      * @returns {array}
-     *     Array representation of curve point.
+     *     Array representation of key.
      */
     ns.hexDecodeVector= _hexDecodeVector;
 
     /**
-     * Encodes the internal representation of a point to a base32 representation
-     * (using the internally used byte order).
+     * Encodes the internal representation of a key to a base32 representation.
      *
      * @param n {array}
-     *     Array representation of curve point.
+     *     Array representation of a key.
      * @returns {string}
-     *     Base32 string representation of curve point.
+     *     Base32 string representation of key.
      */
     ns.base32encode = _base32encode;
 
     /**
-     * Decodes a base32 representation of a point (of the internally used byte order)
-     * to an internally compatible array representation.
+     * Decodes a base32 representation of a key to an internally compatible array representation.
      *
      * @param n {string}
-     *     Base32 string representation of curve point.
+     *     Base32 string representation of a key.
      * @returns {array}
-     *     Array representation of curve point.
+     *     Array representation of key.
      */
     ns.base32decode = _base32decode;
     
