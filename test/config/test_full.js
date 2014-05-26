@@ -1,6 +1,6 @@
 /**
  * @fileOverview
- * This file is included when TEST_TIMING is true.
+ * This file is included when TEST_FULL is true.
  */
 
 /*
@@ -12,4 +12,4 @@
  * You should have received a copy of the license along with this program.
  */
 
-window.TEST_TIMING = true;
+window.TEST_FULL = true;

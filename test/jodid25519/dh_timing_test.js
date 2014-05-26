@@ -1,27 +1,26 @@
 /**
  * @fileOverview
- * Timing tests.
+ * Timing tests for Curve25519 ECDH.
  */
 
 /*
- * Created: 21 May 2014 Guy K. Kloss <gk@mega.co.nz>
- *
  * Copyright (c) 2014 Mega Limited
- *
- * Author: Guy K. Kloss
- *
- * You should have received a copy of the MIT license along with this
- * program.
+ * under the MIT License.
+ * 
+ * Authors: Guy K. Kloss
+ * 
+ * You should have received a copy of the license along with this program.
  */
 
 
 define([
-    "jodid25519",
-], function(ns) {
+    "jodid25519/curve255",
+], function(curve255) {
     "use strict";
 
+    var _td = _td_dh;
     var MIN_TESTS = 50;
-    var NUM_TESTS = _td.testVectors.length;
+    var NUM_TESTS = _td.TEST_VECTORS_HEX.length;
     var MAX_TEST_DURATION = 10000; // Duration in milliseconds.
 
     var arraySum = function(values) {
@@ -43,7 +42,7 @@ define([
         var min = Math.min.apply(null, timings);
         var mean = arraySum(timings) / timings.length;
         var esq = arraySum(timings.map(function(x) { return x * x; })) / timings.length;
-        var stdev = Math.sqrt(esq - mean*mean);
+        var stdev = Math.sqrt(esq - mean * mean);
         var maxpc = ((max - mean) / mean * 100).toFixed(2);
         var minpc = ((mean - min) / mean * 100).toFixed(2);
         var stdevpc = (stdev / mean * 100).toFixed(2);
@@ -60,10 +59,10 @@ define([
                         && i < NUM_TESTS || i < MIN_TESTS; i++) {
                     // Fields on each record in vector:
                     // e, k, ek
-                    var vector = _td.testVectors[i];
-                    var e = ns.hexDecodeVector(vector[0]);
-                    var k = ns.hexDecodeVector(vector[1]);
-                    timeIt(timings, function() { return ns.curve25519(e, k); });
+                    var vector = _td.TEST_VECTORS_HEX[i];
+                    var e = curve255.hexDecodeVector(vector[0]);
+                    var k = curve255.hexDecodeVector(vector[1]);
+                    timeIt(timings, function() { return curve255.curve25519(e, k); });
                 }
                 console.log('Duration per curve25519() call ' + timingStatsText(timings));
             });
@@ -74,10 +73,10 @@ define([
                         && i < NUM_TESTS || i < MIN_TESTS; i++) {
                     // Fields on each record in vector:
                     // e, k, ek
-                    var vector = _td.testVectors[i];
-                    var e = ns.hexDecodeVector(vector[0]);
-                    var k = ns.hexDecodeVector(vector[1]);
-                    timeIt(timings, function() { return ns.curve25519_raw(e, k); });
+                    var vector = _td.TEST_VECTORS_HEX[i];
+                    var e = curve255.hexDecodeVector(vector[0]);
+                    var k = curve255.hexDecodeVector(vector[1]);
+                    timeIt(timings, function() { return curve255.curve25519_raw(e, k); });
                 }
                 console.log('Duration per curve25519_raw() call ' + timingStatsText(timings));
             });
