@@ -28,9 +28,14 @@ define([
     var ns = {};
 
     /**
-     * Computes the scalar product of two points on the curve 25519.
-     * Before multiplication, some bit operations are applied to `f` to force it
-     * to points on the curve (in case it is not a valid point).
+     * Computes the scalar product of a point on the curve 25519.
+     *
+     * This function is used for the DH key-exchange protocol.
+     *
+     * Before multiplication, some bit operations are applied to the
+     * private key to ensure it is a valid Curve25519 secret key.
+     * It is the user's responsibility is to make sure that the private
+     * key is a uniformly random, secret value.
      *
      * @function
      * @param f {string}
