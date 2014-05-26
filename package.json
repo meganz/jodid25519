@@ -1,7 +1,7 @@
 {
-  "name": "ed25519",
-  "version": "0.0.0",
-  "description": "Ed25519 - digital signatures based on Curve25519",
+  "name": "curve255js",
+  "version": "0.2.0",
+  "description": "Javascript implementation of Curve25519",
   "main": "index.js",
   "directories": {
     "doc": "doc",
@@ -12,16 +12,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@code.developers.mega.co.nz:gk/ed25519_js.git"
+    "url": "git@github.com:rev22/curve255js.git"
   },
   "keywords": [
-    "mpEnc",
-    "messaging",
-    "encryption"
+    "elliptic cryptography",
+    "secret-sharing",
+    "Diffie-Hellman",
+    "curve25519",
+    "Curve25519"
   ],
   "author": "Michele Bini, Guy K. Kloss",
   "license": "MIT",
-  "gitHead": "064cfd52ef69822d4bacf3b18e6979c49a3ca8ed",
   "readmeFilename": "README.md",
   "devDependencies": {
     "karma-script-launcher": "~0.1.0",
