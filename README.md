@@ -1,29 +1,13 @@
-curve255js
-==========
+Javascript implementation of the Curve25519 and Ed25519 elliptic cryptography functions by Daniel J. Bernstein.
 
-Javascript implementation of the Curve25519 elliptic cryptography function by Daniel J. Bernstein.
-
-Synopsis:
-````javascript
-var my_public_key = curve25519(my_secret);
-var shared_secret = curve25519(my_secret, public_key);
-````
-
-As in curve25519-donna, some bits in the private key are altered to harden the operation of the function.
-
-Private and public keys are represented by arrays of 16-bit values, starting from the least significant ones:
-
-````
-key = arr[0] + arr[1] × 2^16 + arr[2] × 2^32 + … + arr[15] × 2^(16 × 15)
-````
-
-Please note that, while the main function is free of conditional branching, its actual constant-time operation is dependent on the Javascript implementation of numerical operations being also constant-time.
-
+For the API, please consult the generated documentation under doc/.
 
 Contributors
 ------------
 
-Among the contributors, in no particular order:
+If you are one of the contributors and want to add yourself or change the information here, please do submit a pull request.   Contributors appear in no particular order.
+
+### For the Curve25519 submodule
 
 [Graydon Hoare](https://github.com/graydon): suggested clamping the private key by default for increased safety and uniformity with other implementations.
 [liliakai](https://github.com/liliakai): spotted an unused argument in some of the functions
@@ -33,8 +17,6 @@ Among the contributors, in no particular order:
 [Guy Kloss](https://github.com/pohutukawa): performance improvements through bit-shift operations, performance and conformance testing, documentation, compatibility with the npm package ecosystem, and more
 
 [Michele Bini](https://github.com/rev22): originally wrote the Javascript implementation
-
-If you are one of the contributors and want to add yourself or change the information here, please do submit a pull request.
 
 
 Copyright and MIT licensing
