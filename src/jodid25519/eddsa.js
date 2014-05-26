@@ -653,11 +653,11 @@ define([
     ns.genkeyseed = function() {
         var buffer = new Uint8Array(32);
         asmCrypto.getRandomValues(buffer);
-        var result = '';
+        var result = [];
         for (var i = 0; i < buffer.length; i++) {
-            result += String.fromCharCode(buffer[i]);
+            result.push(String.fromCharCode(buffer[i]));
         }
-        return result;
+        return result.join('');
     };
     
     

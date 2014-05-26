@@ -35,15 +35,15 @@ define([
     var _HEXCHARS = "0123456789abcdef";
     
     function _hexencode(vector) {
-        var result = '';
+        var result = [];
         for (var i = vector.length - 1; i >= 0; i--) {
             var value = vector[i];
-            result += _HEXCHARS.substr((value >>> 12) & 0x0f, 1)
-                    + _HEXCHARS.substr((value >>> 8) & 0x0f, 1)
-                    + _HEXCHARS.substr((value >>> 4) & 0x0f, 1)
-                    + _HEXCHARS.substr(value & 0x0f, 1);
+            result.push(_HEXCHARS.substr((value >>> 12) & 0x0f, 1));
+            result.push(_HEXCHARS.substr((value >>> 8) & 0x0f, 1));
+            result.push(_HEXCHARS.substr((value >>> 4) & 0x0f, 1));
+            result.push(_HEXCHARS.substr(value & 0x0f, 1));
         }
-        return result;
+        return result.join('');
     }
     
     function _hexdecode(vector) {
@@ -59,12 +59,12 @@ define([
     }
     
     function _toString(vector) {
-        var result = '';
+        var result = [];
         for (var i = 0; i < vector.length; i++) {
-            result += String.fromCharCode(vector[i] & 0xff)
-                    + String.fromCharCode(vector[i] >>> 8);
+            result.push(String.fromCharCode(vector[i] & 0xff));
+            result.push(String.fromCharCode(vector[i] >>> 8));
         }
-        return result;
+        return result.join('');
     }
     
     function _fromString(vector) {

@@ -7,14 +7,14 @@ BUILDDIR = build
 
 all: test api-doc
 
-test: $(KARMA)
-	$(KARMA) start --singleRun=true karma.conf.js --browsers PhantomJS
-
 test-timing:
-	TEST_TIMING=true $(MAKE) test
+	KARMA_FLAGS='--preprocessors=' TEST_TIMING=true $(MAKE) test
 
 test-full:
-	TEST_FULL=true $(MAKE) test
+	KARMA_FLAGS='--preprocessors=' TEST_FULL=true $(MAKE) test
+
+test: $(KARMA)
+	$(KARMA) start $(KARMA_FLAGS) --singleRun=true karma.conf.js --browsers PhantomJS
 
 api-doc: $(JSDOC)
 	$(JSDOC) --destination doc/api/ --private \
