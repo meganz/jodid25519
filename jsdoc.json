@@ -1,19 +1,19 @@
 {
 	"templates": {
-	    "applicationName": "curve255js library",
+	    "applicationName": "jodid25519 Library",
 	    "disqus": "",
 	    "googleAnalytics": "",
 	    "openGraph": {
-	        "title": "curve255js library",
+	        "title": "jodid25519 Library",
 	        "type": "website",
 	        "image": "",
 	        "site_name": "http://github.com/rev22/curve255js",
 	        "url": ""
 	    },
 	    "meta": {
-	        "title": "curve255js library",
-	        "description": "A Javascript implementation of Curve25519",
-	        "keyword": "Curve25519"
+	        "title": "jodid25519 Library",
+	        "description": "",
+	        "keyword": ""
 	    }
 	}
 }

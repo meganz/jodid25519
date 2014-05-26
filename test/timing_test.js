@@ -1,23 +1,22 @@
 /**
  * @fileOverview
- * Curve25519 timing tests.
+ * Timing tests.
  */
 
 /*
  * Created: 21 May 2014 Guy K. Kloss <gk@mega.co.nz>
  *
- * (c) 2014 by Mega Limited, Wellsford, New Zealand
- *     http://mega.co.nz/
- *     MIT License.
+ * (c) 2014 by the authors under the MIT License.
  *
  * You should have received a copy of the license along with this
  * program.
  */
 
-(function() {
-    "use strict";
 
-    var assert = chai.assert;
+define([
+    "jodid25519",
+], function(ns) {
+    "use strict";
 
     var MIN_TESTS = 50;
     var NUM_TESTS = _td.testVectors.length;
@@ -50,7 +49,7 @@
                 + " ms, +" + maxpc + "%, -" + minpc + "%, ~" + stdevpc + "%");
     };
 
-    if (window.CURVE25519_TEST_TIMING) {
+    if (window.TEST_TIMING) {
         // Only run this if we're doing timing tests.
         describe("Curve25519 timing tests)", function() {
             it('curve25519()', function() {
@@ -60,9 +59,9 @@
                     // Fields on each record in vector:
                     // e, k, ek
                     var vector = _td.testVectors[i];
-                    var e = _tu.decodeVector(vector[0]);
-                    var k = _tu.decodeVector(vector[1]);
-                    timeIt(timings, function() { return curve25519(e, k); });
+                    var e = ns.hexDecodeVector(vector[0]);
+                    var k = ns.hexDecodeVector(vector[1]);
+                    timeIt(timings, function() { return ns.curve25519(e, k); });
                 }
                 console.log('Duration per curve25519() call ' + timingStatsText(timings));
             });
@@ -74,12 +73,12 @@
                     // Fields on each record in vector:
                     // e, k, ek
                     var vector = _td.testVectors[i];
-                    var e = _tu.decodeVector(vector[0]);
-                    var k = _tu.decodeVector(vector[1]);
-                    timeIt(timings, function() { return curve25519_raw(e, k); });
+                    var e = ns.hexDecodeVector(vector[0]);
+                    var k = ns.hexDecodeVector(vector[1]);
+                    timeIt(timings, function() { return ns.curve25519_raw(e, k); });
                 }
                 console.log('Duration per curve25519_raw() call ' + timingStatsText(timings));
             });
         });
     }
-})();
+});

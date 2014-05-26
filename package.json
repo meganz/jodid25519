@@ -1,7 +1,7 @@
 {
-  "name": "curve255js",
-  "version": "0.2.0",
-  "description": "Javascript implementation of Curve25519",
+  "name": "jodid25519",
+  "version": "0.0.0",
+  "description": "jodid25519 - Curve 25519-based cryptography",
   "main": "index.js",
   "directories": {
     "doc": "doc",
@@ -12,24 +12,27 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:rev22/curve255js.git"
+    "url": "git@github.com:pohutukawa/curve255js.git"
   },
   "keywords": [
-    "elliptic cryptography",
-    "secret-sharing",
-    "Diffie-Hellman",
-    "curve25519",
-    "Curve25519"
+    "Curve25519",
+    "Ed25519",
+    "ECDH",
+    "EdDSA",
+    "encryption"
   ],
-  "author": "Michele Bini, Guy K. Kloss",
+  "author": "Michele Bini, Ron Garret, Guy K. Kloss",
   "license": "MIT",
   "readmeFilename": "README.md",
   "devDependencies": {
+    "almond": "~0.2.9",
     "karma-script-launcher": "~0.1.0",
     "karma-chrome-launcher": "~0.1.2",
     "karma-firefox-launcher": "~0.1.3",
     "karma-html2js-preprocessor": "~0.1.0",
     "karma-jasmine": "~0.1.5",
+    "requirejs": "~2.1.10",
+    "karma-requirejs": "~0.2.1",
     "karma-phantomjs-launcher": "~0.1.1",
     "karma": "~0.10.9",
     "mocha": "~1.17.1",
