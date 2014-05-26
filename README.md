@@ -1,6 +1,6 @@
 Javascript implementation of the Curve25519 and Ed25519 elliptic cryptography functions by Daniel J. Bernstein.
 
-For the API, please consult the generated documentation under doc/.
+For the API, please consult the generated documentation under doc/ (you can run `make` to generate it).
 
 Contributors
 ------------
