@@ -13,7 +13,7 @@
  */
 
 define([
-    "jodid25519",
+    "jodid25519/dh",
     "chai",
 ], function(ns, chai) {
     "use strict";
