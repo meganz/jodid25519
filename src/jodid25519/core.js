@@ -6,9 +6,12 @@
 /*
  * Created: 23 May 2014 Guy K. Kloss <gk@mega.co.nz>
  *
- * (c) 2014 by the authors under the MIT License.
+ * Copyright (c) 2014 Mega Limited
+ * Copyright (c) 2007, 2013, 2014 Michele Bini
  *
- * You should have received a copy of the license along with this
+ * Authors: Guy K. Kloss, Michele Bini
+ *
+ * You should have received a copy of the MIT license along with this
  * program.
  */
 
