@@ -25,13 +25,14 @@ Contributors
 
 Among the contributors, in no particular order:
 
-Graydon Hoare: suggested clamping the private key by default for increased safety and uniformity with other implementations.
-
+[Graydon Hoare](https://github.com/graydon): suggested clamping the private key by default for increased safety and uniformity with other implementations.
 [liliakai](https://github.com/liliakai): spotted an unused argument in some of the functions
 
 [RyanC](https://github.com/ryancdotorg): removed dependency of a function to the Javascript Math library
 
-[Guy Kloss](https://github.com/pohutukawa): performance improvements through bit-shift operations
+[Guy Kloss](https://github.com/pohutukawa): performance improvements through bit-shift operations, performance and conformance testing, documentation, compatibility with the npm package ecosystem, and more
+
+[Michele Bini](https://github.com/rev22): originally wrote the Javascript implementation
 
 If you are one of the contributors and want to add yourself or change the information here, please do submit a pull request.
 
@@ -40,6 +41,7 @@ Copyright and MIT licensing
 ---------------------------
 
 Copyright (c) 2007, 2013, 2014 Michele Bini
+Copyright (c) 2014 Mega Limited
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
