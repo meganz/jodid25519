@@ -124,7 +124,7 @@ define([
 
         while (core.getbit(f, n) == 0) {
             n--;
-            // For correct constant-time operation, bit 255 should always be set to 1 so the following 'while' loop is never entered
+            // For correct constant-time operation, bit 255 should always be set to 1 so this 'while' loop is never entered
             if (n < 0) {
                 return core.ZERO();
             }
