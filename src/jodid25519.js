@@ -168,20 +168,27 @@ define([
     }
 
     function _hexEncodeVector(k) {
-        var hexKey = _hexencode(k);
-        // Pad with '0' at the front.
-        hexKey = new Array(64 + 1 - hexKey.length).join('0') + hexKey;
-        // Invert bytes.
-        return hexKey.split(/(..)/).reverse().join('');
+	var i;
+	var r = "";
+	for (i = 0; i < 16; i++) {
+	    var v = k[i];
+	    r += ('0' + (v & 0xff).toString(16)).slice(-2);
+	    r += ('0' + (v >>> 8).toString(16)).slice(-2);
+	};
+	return r;
     }
     
     function _hexDecodeVector(v) {
-        // assert(length(x) == 64);
-        // Invert bytes.
-        var hexKey = v.split(/(..)/).reverse().join('');
-        return _hexdecode(hexKey);
-    }
-    
+	var i;
+	var r = [ ];
+	var j = 0;
+	for (i = 0; i < 16; i++) {
+	    r[i] = (parseInt(v.substring(j + 2, j + 4) || 0, 16) << 8) +
+		(parseInt(v.substring(j, j + 2) || 0, 16));
+	    j += 4;
+	};
+	return r;
+    }    
     
     // Expose some functions to the outside through this name space.
     
