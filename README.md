@@ -10,6 +10,7 @@ If you are one of the contributors and want to add yourself or change the inform
 ### For the Curve25519 submodule
 
 [Graydon Hoare](https://github.com/graydon): suggested clamping the private key by default for increased safety and uniformity with other implementations.
+
 [liliakai](https://github.com/liliakai): spotted an unused argument in some of the functions
 
 [RyanC](https://github.com/ryancdotorg): removed dependency of a function to the Javascript Math library
