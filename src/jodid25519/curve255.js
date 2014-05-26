@@ -153,7 +153,7 @@ define([
      *
      * Before multiplication, some bit operations are applied to the
      * private key to ensure it is a valid Curve25519 secret key.
-     * It is the user's responsibility is to make sure that the private
+     * It is the user's responsibility to make sure that the private
      * key is a uniformly random, secret value.
      *
      * @function
