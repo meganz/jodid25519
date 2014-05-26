@@ -495,6 +495,11 @@ define([
     ns.fromString = _fromString;
     ns.hexencode = _hexencode;
     ns.hexdecode = _hexdecode;
+    ns.bigintadd = _bigintadd;
+    ns.bigintsub = _bigintsub;
+    ns.bigintcmp = _bigintcmp;
+    ns.mulmodp = _mulmodp;
+    ns.sqrmodp = _sqrmodp;
     
     
     return ns;

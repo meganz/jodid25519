@@ -19,6 +19,8 @@ define([
     "use strict";
 
     var assert = chai.assert;
+    
+    var _td = _td_dh;
 
     describe("Curve25519 compliance tests)", function() {
         describe('NaCl test vectors', function() {

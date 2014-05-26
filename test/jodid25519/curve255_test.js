@@ -19,6 +19,8 @@ define([
     "use strict";
 
     var assert = chai.assert;
+    
+    var _td = _td_dh;
 
     describe("Tests for curve255 key format compliance", function() {
         describe('NaCl test vectors', function() {

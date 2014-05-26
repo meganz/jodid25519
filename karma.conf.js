@@ -13,15 +13,20 @@ module.exports = function(config) {
     files: [
         // Dependency-based load order of lib/ modules.
         // (no external dependencies)
+        'lib/jsbn.js',
+        'lib/jsbn2.js',
+        'lib/asmcrypto.js',
         // karma-sinon does not yet integrate with RequireJS, so we have to do this hack.
         {pattern: 'node_modules/sinon/lib/**/*.js', included: false},
 
         // Ours.
         'src/config.js',
         {pattern: 'src/**/*.js', included: false},
-        'test/test_vectors.js',
+        'test/dh_test_vectors.js',
+        'test/ecdsa_test_vectors.js',
         'test/test_utils.js',
         (process.env.TEST_TIMING) ? 'test/config/test_timing.js' : 'test/config/test_timing_off.js',
+        (process.env.TEST_FULL) ? 'test/config/test_full.js' : 'test/config/test_full_off.js',
         {pattern: 'test/**/*_test.js', included: false},
         'test/test_main.js',
     ],
@@ -38,7 +43,7 @@ module.exports = function(config) {
     // (Do not include tests or libraries.
     // These files will be instrumented by Istanbul.)
     preprocessors: {
-//        'src/**/*.js': ['coverage']
+        'src/**/*.js': ['coverage']
     },
 
     // Coverage configuration

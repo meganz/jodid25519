@@ -13,6 +13,9 @@ test: $(KARMA)
 test-timing:
 	TEST_TIMING=true $(MAKE) test
 
+test-full:
+	TEST_FULL=true $(MAKE) test
+
 api-doc: $(JSDOC)
 	$(JSDOC) --destination doc/api/ --private \
                  --configure jsdoc.json \

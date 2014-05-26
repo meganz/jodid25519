@@ -1,6 +1,6 @@
 /**
  * @fileOverview
- * Timing tests.
+ * Timing tests for Curve25519 ECDH.
  */
 
 /*
@@ -18,6 +18,7 @@ define([
 ], function(curve255) {
     "use strict";
 
+    var _td = _td_dh;
     var MIN_TESTS = 50;
     var NUM_TESTS = _td.TEST_VECTORS_HEX.length;
     var MAX_TEST_DURATION = 10000; // Duration in milliseconds.
@@ -41,7 +42,7 @@ define([
         var min = Math.min.apply(null, timings);
         var mean = arraySum(timings) / timings.length;
         var esq = arraySum(timings.map(function(x) { return x * x; })) / timings.length;
-        var stdev = Math.sqrt(esq - mean*mean);
+        var stdev = Math.sqrt(esq - mean * mean);
         var maxpc = ((max - mean) / mean * 100).toFixed(2);
         var minpc = ((mean - min) / mean * 100).toFixed(2);
         var stdevpc = (stdev / mean * 100).toFixed(2);

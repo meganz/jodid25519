@@ -51,7 +51,7 @@ define([
                 e2 = xor(e2, e1k);
                 k = xor(k, e1e2k);
             }
-            assert.deepEqual(e1e2k, curve255.hexDecodeVector(_td.CHAIN_10_HEX));
+            assert.deepEqual(e1e2k, curve255.hexDecodeVector(_td_dh.CHAIN_10_HEX));
         });
     });
 });

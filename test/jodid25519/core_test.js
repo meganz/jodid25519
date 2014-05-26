@@ -20,6 +20,8 @@ define([
 
     var assert = chai.assert;
 
+    var _td = _td_dh;
+
     describe("Tests for core functions", function() {
         describe('format conversion test', function() {
             it('round trip comparisons hexdecode()/hexencode()', function() {

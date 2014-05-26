@@ -1,6 +1,6 @@
 /**
  * @fileOverview
- * This file is included when CURVE25519_TEST_TIMING is false.
+ * This file is included when TEST_TIMING is false.
  */
 
 /*
