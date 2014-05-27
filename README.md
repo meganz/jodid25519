@@ -24,7 +24,9 @@ Copyright and MIT licensing
 ---------------------------
 
 Copyright (c) 2012 Ron Garret
+
 Copyright (c) 2007, 2013, 2014 Michele Bini <michele.bini@gmail.com>
+
 Copyright (c) 2014 Mega Limited
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
