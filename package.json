@@ -4,8 +4,10 @@
   "description": "jodid25519 - Curve 25519-based cryptography",
   "main": "index.js",
   "directories": {
-    "doc": "doc",
-    "test": "test"
+    "src": "src",
+    "lib": "lib",
+    "test": "test",
+    "doc": "doc"
   },
   "scripts": {
     "test": "karma start --singleRun=true karma.conf.js",
