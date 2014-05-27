@@ -8,7 +8,10 @@
     "test": "test"
   },
   "scripts": {
-    "test": "karma start karma.conf.js"
+    "test": "karma start --singleRun=true karma.conf.js",
+    "test-full": "TEST_FULL=true karma start --preprocessors= --singleRun=true karma.conf.js",
+    "test-timing": "TEST_TIMING=true karma start --preprocessors= --singleRun=true karma.conf.js",
+    "api-doc": "./node_modules/.bin/jsdoc --destination doc/api/ --private --configure jsdoc.json --recurse src/"
   },
   "homepage": "https://github.com/meganz/jodid25519",
   "repository": {
@@ -45,7 +48,7 @@
     "karma-mocha": "~0.1.1",
     "karma-chai": "0.1.0",
     "karma-chai-plugins": "0.2.1",
-    "karma-sinon": "~1.0.0",
+    "karma-sinon": "~1.0.3",
     "karma-coverage": "~0.2.4",
     "istanbul": "~0.2.10",
     "ibrik": "~1.1.1",
