@@ -27,9 +27,9 @@ define([
                 for (var i = 0; i < tests.length; i++) {
                     var msg = tests[i][0];
                     var key = tests[i][1];
-                    var pk = ns.publickey(key);
+                    var pk = ns.publicKey(key);
                     var sig = ns.signature(msg, key, pk);
-                    assert.ok(ns.checksig(sig, msg, pk));
+                    assert.ok(ns.checkSig(sig, msg, pk));
                 }
             });
         });

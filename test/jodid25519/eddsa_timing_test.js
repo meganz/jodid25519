@@ -56,7 +56,7 @@ define([
 
     if (window.TEST_TIMING) {
         // Only run this if we're doing timing tests.
-        describe("Ed25519 timing tests)", function() {
+        describe("Ed25519 timing tests:", function() {
             it('signing and verification', function() {
                 var timings = [];
                 for (var i = 0; arraySum(timings) < MAX_TEST_DURATION
@@ -69,7 +69,7 @@ define([
                     var pk = atob(vector[1]);
                     var check = timeIt(timings, function() {
                         var sig = ns.signature(msg, key, pk);
-                        return ns.checksig(sig, msg, pk);
+                        return ns.checkSig(sig, msg, pk);
                     });
                     assert.ok(check, 'verify mismatch on test ' + i);
                 }
@@ -86,7 +86,7 @@ define([
                     var key = atob(vector[0]).slice(0, 32);
                     var msg = atob(vector[2]);
                     var pk = atob(vector[1]);
-                    var sig = timeIt(timings, function() {
+                    timeIt(timings, function() {
                         return ns.signature(msg, key, pk);
                     });
                 }
@@ -104,7 +104,7 @@ define([
                     var pk = atob(vector[1]);
                     var sigCheck = atob(vector[3]).slice(0, 64);
                     var check = timeIt(timings, function() {
-                        return ns.checksig(sigCheck, msg, pk);
+                        return ns.checkSig(sigCheck, msg, pk);
                     });
                     assert.ok(check, 'verify mismatch on test ' + i);
                 }
@@ -119,8 +119,8 @@ define([
                     // key + pk, pk, msg, sign + msg
                     var vector = _td.SIGN_INPUT[i];
                     var key = atob(vector[0]).slice(0, 32);
-                    var pk = timeIt(timings, function() {
-                        return ns.publickey(key);
+                    timeIt(timings, function() {
+                        return ns.publicKey(key);
                     });
                 }
                 console.log('Duration per public key computation ' + timingStatsText(timings));
@@ -134,8 +134,8 @@ define([
                     // key + pk, pk, msg, sign + msg
                     var vector = _td.SIGN_INPUT[i];
                     var pk = atob(vector[1]);
-                    var check = timeIt(timings, function() {
-                        return ns.isoncurve(pk);
+                    timeIt(timings, function() {
+                        return ns.isOnCurve(pk);
                     });
                 }
                 console.log('Duration per point on curve check ' + timingStatsText(timings));
@@ -145,8 +145,8 @@ define([
                 var timings = [];
                 for (var i = 0; arraySum(timings) < MAX_TEST_DURATION
                         && i < NUM_TESTS || i < MIN_TESTS; i++) {
-                    var keySeed = timeIt(timings, function() {
-                        return ns.genkeyseed();
+                    timeIt(timings, function() {
+                        return ns.genKeySeed();
                     });
                 }
                 console.log('Duration per key seed generation ' + timingStatsText(timings));

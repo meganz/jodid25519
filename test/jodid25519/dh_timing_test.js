@@ -52,7 +52,7 @@ define([
 
     if (window.TEST_TIMING) {
         // Only run this if we're doing timing tests.
-        describe("Curve25519 timing tests)", function() {
+        describe("Curve25519 timing tests:", function() {
             it('curve25519()', function() {
                 var timings = [];
                 for (var i = 0; arraySum(timings) < MAX_TEST_DURATION

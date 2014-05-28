@@ -2,8 +2,7 @@ var requirejs_config_jodid25519 =
 ({
     paths: {
         "jsbn1": "../lib/jsbn",
-        "jsbn2": "../lib/jsbn2",
-        "jsbn": "../lib/jsbn-join",
+        "jsbn": "../lib/jsbn2",
         "asmcrypto": "../lib/asmcrypto",
     },
     shim: {
@@ -16,19 +15,18 @@ var requirejs_config_jodid25519 =
         },
         "jsbn1": {
             exports: "jsbn1",
-            init: function() {
+        },
+        "jsbn": {
+            // jsbn2.js is a monkey patch to add methods to BigInteger in jsbn.js.
+            // Due to its dependency on jsbn.js, we're mapping jsbn2.js after
+            // patching jsbn.js to the jsbn name space.
+            deps: ["jsbn1"],
+            exports: "jsbn",
+            init: function(jsbn1) {
                 return {
                     BigInteger: BigInteger,
                 };
-            }
-        },
-        "jsbn2": {
-            deps: ["jsbn1"],
-            exports: "jsbn2",
-        },
-        "jsbn": {
-            deps: ["jsbn1", "jsbn2"],
-            exports: "jsbn",
+            },
         },
     },
 })

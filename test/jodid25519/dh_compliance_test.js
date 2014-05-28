@@ -22,26 +22,26 @@ define([
     
     var _td = _td_dh;
 
-    describe("Curve25519 compliance tests)", function() {
+    describe("Curve25519 compliance tests:", function() {
         describe('NaCl test vectors', function() {
             it('Alice computes her pub key', function() {
-                var result = ns.curve25519(atob(_td.ALICE_PRIV));
+                var result = ns.computeKey(atob(_td.ALICE_PRIV));
                 assert.strictEqual(btoa(result), _td.ALICE_PUB);
             });
             
             it('Bob computes his pub key', function() {
-                var result = ns.curve25519(atob(_td.BOB_PRIV));
+                var result = ns.computeKey(atob(_td.BOB_PRIV));
                 assert.strictEqual(btoa(result), _td.BOB_PUB);
             });
             
             it('Alice computes secret key', function() {
-                var result = ns.curve25519(atob(_td.ALICE_PRIV),
+                var result = ns.computeKey(atob(_td.ALICE_PRIV),
                                            atob(_td.BOB_PUB));
                 assert.strictEqual(btoa(result), _td.SECRET_KEY);
             });
             
             it('Bob computes secret key', function() {
-                var result = ns.curve25519(atob(_td.BOB_PRIV),
+                var result = ns.computeKey(atob(_td.BOB_PRIV),
                                            atob(_td.ALICE_PUB));
                 assert.strictEqual(btoa(result), _td.SECRET_KEY);
             });

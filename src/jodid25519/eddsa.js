@@ -509,7 +509,7 @@ define([
      * @returns
      *     true if the point is on the curve, false otherwise.
      */
-    ns.isoncurve = function(p) {
+    ns.isOnCurve = function(p) {
         try {
             _isoncurve(_decodepoint(_string2bytes(p)));
         } catch(e) {
@@ -536,7 +536,7 @@ define([
      *     Public key as byte string computed from the private key seed
      *     (32 bytes).
      */
-    ns.publickey = function(sk) {
+    ns.publicKey = function(sk) {
         return _bytes2string(_publickey(sk));
     };
 
@@ -629,7 +629,7 @@ define([
      * @returns {bool}
      *     true, if the signature verifies.
      */
-    ns.checksig = function(sig, message, pk) {
+    ns.checkSig = function(sig, message, pk) {
         sig = _string2bytes(sig.slice(0, 64));
         pk = _string2bytes(pk);
         var rpe = sig.slice(0, 32);
@@ -651,7 +651,7 @@ define([
      * @returns {string}
      *     Byte string containing a new random private key seed.
      */
-    ns.genkeyseed = function() {
+    ns.genKeySeed = function() {
         var buffer = new Uint8Array(32);
         asmCrypto.getRandomValues(buffer);
         var result = [];

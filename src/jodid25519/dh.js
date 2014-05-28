@@ -28,9 +28,11 @@ define([
     var ns = {};
 
     /**
-     * Computes the scalar product of a point on the curve 25519.
+     * Computes a key through scalar multiplication of a point on the curve 25519.
      *
-     * This function is used for the DH key-exchange protocol.
+     * This function is used for the DH key-exchange protocol. It computes a
+     * key based on a secret key with a public component (opponent's public key
+     * or curve base point if not given) by using scalar multiplication.
      *
      * Before multiplication, some bit operations are applied to the
      * private key to ensure it is a valid Curve25519 secret key.
@@ -38,21 +40,39 @@ define([
      * key is a uniformly random, secret value.
      *
      * @function
-     * @param f {string}
+     * @param secretKey {string}
      *     Private point as byte string on the curve.
-     * @param c {string}
+     * @param publicComponent {string}
      *     Public point as byte string on the curve. If not given, the curve's
      *     base point is used.
      * @returns {string}
      *     Key point as byte string resulting from scalar product.
      */
-    ns.curve25519 = function(f, c) {
-        if (c) {
-            return core.toString(curve255.curve25519(core.fromString(f),
-                                                     core.fromString(c)));
+    ns.computeKey = function(secretKey, publicComponent) {
+        if (publicComponent) {
+            return core.toString(curve255.curve25519(core.fromString(secretKey),
+                                                     core.fromString(publicComponent)));
         } else {
-            return core.toString(curve255.curve25519(core.fromString(f)));
+            return core.toString(curve255.curve25519(core.fromString(secretKey)));
         }
+    };
+
+    /**
+     * Computes the public key to a private key on the curve 25519.
+     *
+     * Before multiplication, some bit operations are applied to the
+     * private key to ensure it is a valid Curve25519 secret key.
+     * It is the user's responsibility to make sure that the private
+     * key is a uniformly random, secret value.
+     *
+     * @function
+     * @param privateKey {string}
+     *     Private point as byte string on the curve.
+     * @returns {string}
+     *     Public key point as byte string resulting from scalar product.
+     */
+    ns.publicKey = function(privateKey) {
+        return core.toString(curve255.curve25519(core.fromString(privateKey)));
     };
     
 

@@ -23,14 +23,14 @@ define([
     var _td = _td_eddsa;
 
     describe("API tests", function() {
-        describe('checksig() function', function() {
+        describe('checkSig() function', function() {
             it('signature R not on curve', function() {
                 var vector = _td.SIGN_INPUT[42];
                 var msg = atob(vector[2]);
                 var pk = atob(vector[1]);
                 var sigOrig = atob(vector[3]).slice(0, 64);
                 var sigMod = String.fromCharCode(0x42) + sigOrig.slice(1, 64);
-                assert.throws(function() { ns.checksig(sigMod, msg, pk); },
+                assert.throws(function() { ns.checkSig(sigMod, msg, pk); },
                               'Point is not on curve');
             });
 
@@ -39,17 +39,34 @@ define([
                 var msg = atob(vector[2]);
                 var pk = String.fromCharCode(0x42) + atob(vector[1]).slice(1, 32);
                 var sig = atob(vector[3]).slice(0, 64);
-                assert.throws(function() { ns.checksig(sig, msg, pk); },
+                assert.throws(function() { ns.checkSig(sig, msg, pk); },
                               'Point is not on curve');
+            });
+
+            it('good signature', function() {
+                var vector = _td.SIGN_INPUT[42];
+                var msg = atob(vector[2]);
+                var pk = atob(vector[1]);
+                var sig = atob(vector[3]).slice(0, 64);
+                assert.ok(ns.checkSig(sig, msg, pk));
             });
         });
 
         describe('signature() function', function() {
-            it('signature call without pk', function() {
+            it('signature call with pk', function() {
                 var vector = _td.SIGN_INPUT[42];
                 var key = atob(vector[0]).slice(0, 32);
                 var msg = atob(vector[2]);
                 var pk = atob(vector[1]);
+                var sigCheck = atob(vector[3]).slice(0, 64);
+                var sig = ns.signature(msg, key, pk);
+                assert.strictEqual(sig, sigCheck);
+            });
+
+            it('signature call without pk', function() {
+                var vector = _td.SIGN_INPUT[42];
+                var key = atob(vector[0]).slice(0, 32);
+                var msg = atob(vector[2]);
                 var sigCheck = atob(vector[3]).slice(0, 64);
                 var sig = ns.signature(msg, key);
                 assert.strictEqual(sig, sigCheck);
@@ -66,29 +83,38 @@ define([
             });
         });
 
-        describe('isoncurve() function', function() {
+        describe('isOnCurve() function', function() {
             it('for a point on the curve', function() {
                 var vector = _td.SIGN_INPUT[42];
                 var pk = atob(vector[1]);
-                assert.ok(ns.isoncurve(pk));
+                assert.ok(ns.isOnCurve(pk));
             });
 
             it('point not on curve', function() {
                 var vector = _td.SIGN_INPUT[42];
                 var pk = String.fromCharCode(0x42) + atob(vector[1]).slice(1, 32);
-                assert.notOk(ns.isoncurve(pk));
+                assert.notOk(ns.isOnCurve(pk));
             });
         });
 
-        describe('genkeyseed() function', function() {
+        describe('genKeySeed() function', function() {
             it('generate several different key seeds', function() {
                 var compare = '';
                 for (var i = 0; i < 5; i++) {
-                    var keySeed = ns.genkeyseed();
+                    var keySeed = ns.genKeySeed();
                     assert.lengthOf(keySeed, 32);
                     assert.notStrictEqual(keySeed, compare);
                     compare = keySeed;
                 }
+            });
+        });
+
+        describe('publicKey() function', function() {
+            it('derive public key', function() {
+                var vector = _td.SIGN_INPUT[42];
+                var key = atob(vector[0]).slice(0, 32);
+                var keyCheck = atob(vector[1]);
+                assert.strictEqual(ns.publicKey(key), keyCheck);
             });
         });
     });
