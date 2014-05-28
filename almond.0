@@ -1,3 +1,16 @@
+/*
+ * Curve 25519-based cryptography collection.
+ *
+ * EC Diffie-Hellman (ECDH) based on Curve25519 and digital signatures (EdDSA)
+ * based on Ed25519.
+ * 
+ * Copyright (c) 2012 Ron Garret
+ * Copyright (c) 2007, 2013, 2014 Michele Bini
+ * Copyright (c) 2014 Mega Limited
+ * under the MIT License.
+ * 
+ * You should have received a copy of the license along with this program.
+ */
 // See https://github.com/jrburke/almond#exporting-a-public-api
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
@@ -11,7 +24,7 @@
         module.exports = factory();
     } else {
         // Browser globals case. Just assign the
-        // esult to a property on the global.
+        // result to a property on the global.
         root.jodid25519 = factory();
     }
 }(this, function () {

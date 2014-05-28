@@ -16,7 +16,8 @@
 define([
     "jodid25519/core",
     "jodid25519/curve255",
-], function(core, curve255) {
+    "jsbn",
+], function(core, curve255, jsbn) {
     "use strict";
 
     /**
@@ -403,13 +404,13 @@ define([
             if (base === 256) {
                 return _bi(_string2bytes(value));
             }
-            return new BigInteger(value, base);
+            return new jsbn.BigInteger(value, base);
         } else if (typeof value === 'string') {
-            return new BigInteger(value, 10);
+            return new jsbn.BigInteger(value, 10);
         } else if ((value instanceof Array) || (value instanceof Uint8Array)) {
-            return new BigInteger(value);
+            return new jsbn.BigInteger(value);
         } else if (typeof value === 'number') {
-            return new BigInteger(value.toString(), 10);
+            return new jsbn.BigInteger(value.toString(), 10);
         } else {
             throw "Can't convert " + value + " to BigInteger";
         }
@@ -427,10 +428,10 @@ define([
         return bytes;
     }
 
-    BigInteger.prototype.toSource = function() {
-        return this.toString(16);
-    };
-    BigInteger.prototype.bytes = function(n) {
+//    jsbn.BigInteger.prototype.toSource = function() {
+//        return this.toString(16);
+//    };
+    jsbn.BigInteger.prototype.bytes = function(n) {
         return _bi2bytes(this, n);
     };
 

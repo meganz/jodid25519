@@ -1,6 +1,6 @@
 {
   "name": "jodid25519",
-  "version": "0.0.0",
+  "version": "0.7.0",
   "description": "jodid25519 - Curve 25519-based cryptography",
   "main": "index.js",
   "directories": {
@@ -13,7 +13,9 @@
     "test": "karma start --singleRun=true karma.conf.js",
     "test-full": "TEST_FULL=true karma start --preprocessors= --singleRun=true karma.conf.js",
     "test-timing": "TEST_TIMING=true karma start --preprocessors= --singleRun=true karma.conf.js",
-    "api-doc": "./node_modules/.bin/jsdoc --destination doc/api/ --private --configure jsdoc.json --recurse src/"
+    "api-doc": "./node_modules/.bin/jsdoc --destination doc/api/ --private --configure jsdoc.json --recurse src/",
+    "build-partial": "make build-test-partial",
+    "build-full": "make build-test-full"
   },
   "homepage": "https://github.com/meganz/jodid25519",
   "repository": {

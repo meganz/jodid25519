@@ -64,13 +64,13 @@ define([
             l--;
             var v = _BASE32VALUES[n.substr(l, 1)];
             core.setbit(r, c, v & 1);
-            v = v >> 1;
+            v >>= 1;
             core.setbit(r, c + 1, v & 1);
-            v = v >> 1;
+            v >>= 1;
             core.setbit(r, c + 2, v & 1);
-            v = v >> 1;
+            v >>= 1;
             core.setbit(r, c + 3, v & 1);
-            v = v >> 1;
+            v >>= 1;
             core.setbit(r, c + 4, v & 1);
            }
         return r;
