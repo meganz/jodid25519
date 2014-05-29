@@ -11,7 +11,8 @@ define([
     "jodid25519/dh",
     "jodid25519/eddsa",
     "jodid25519/curve255",
-], function(dh, eddsa, curve255) {
+    "jodid25519/utils",
+], function(dh, eddsa, curve255, utils) {
     "use strict";
     
     /**
@@ -30,6 +31,7 @@ define([
     ns.dh = dh;
     ns.eddsa = eddsa;
     ns.curve255 = curve255;
+    ns.utils = utils;
 
     return ns;
 });

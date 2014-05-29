@@ -15,7 +15,8 @@
 
 define([
     "jodid25519/core",
-], function(core) {
+    "jodid25519/utils",
+], function(core, utils) {
     "use strict";
 
     /**
@@ -32,50 +33,6 @@ define([
      */
     var ns = {};
 
-    var _BASE32CHARS = "abcdefghijklmnopqrstuvwxyz234567";
-    
-    var _BASE32VALUES = (function () {
-        var result = {};
-        for (var i = 0; i < _BASE32CHARS.length; i++) {
-            result[_BASE32CHARS.charAt(i)] = i;
-        }
-        return result;
-    })();
-    
-    function _base32encode(n) {
-        var c;
-        var r = "";
-        for (c = 0; c < 255; c += 5) {
-            r = _BASE32CHARS.substr(_getbit(n, c)
-                                    + (core.getbit(n, c + 1) << 1)
-                                    + (core.getbit(n, c + 2) << 2)
-                                    + (core.getbit(n, c + 3) << 3)
-                                    + (core.getbit(n, c + 4) << 4), 1)
-                                    + r;
-        }
-        return r;
-    }
-    
-    function _base32decode(n) {
-        var c = 0;
-        var r = core.ZERO();
-        var l = n.length;
-        for (c = 0; (l > 0) && (c < 255); c += 5) {
-            l--;
-            var v = _BASE32VALUES[n.substr(l, 1)];
-            core.setbit(r, c, v & 1);
-            v >>= 1;
-            core.setbit(r, c + 1, v & 1);
-            v >>= 1;
-            core.setbit(r, c + 2, v & 1);
-            v >>= 1;
-            core.setbit(r, c + 3, v & 1);
-            v >>= 1;
-            core.setbit(r, c + 4, v & 1);
-           }
-        return r;
-    }
-    
     function curve25519_raw(f, c) {
         var a, x_1, q;
 
@@ -129,7 +86,7 @@ define([
     }
 
     function _hexEncodeVector(k) {
-        var hexKey = core.hexencode(k);
+        var hexKey = utils.hexEncode(k);
         // Pad with '0' at the front.
         hexKey = new Array(64 + 1 - hexKey.length).join('0') + hexKey;
         // Invert bytes.
@@ -140,7 +97,7 @@ define([
         // assert(length(x) == 64);
         // Invert bytes.
         var hexKey = v.split(/(..)/).reverse().join('');
-        return core.hexdecode(hexKey);
+        return utils.hexDecode(hexKey);
     }
     
     
@@ -225,7 +182,7 @@ define([
      * @returns {string}
      *     Hexadecimal string representation of key.
      */
-    ns.hexencode = core.hexencode;
+    ns.hexencode = utils.hexEncode;
 
     /**
      * Decodes a hex representation of a key to an internally
@@ -237,7 +194,7 @@ define([
      * @returns {array}
      *     Array representation of key.
      */
-    ns.hexdecode = core.hexdecode;
+    ns.hexdecode = utils.hexDecode;
 
     /**
      * Encodes the internal representation of a key to a base32
@@ -249,7 +206,7 @@ define([
      * @returns {string}
      *     Base32 string representation of key.
      */
-    ns.base32encode = _base32encode;
+    ns.base32encode = utils.base32encode;
 
     /**
      * Decodes a base32 representation of a key to an internally
@@ -261,7 +218,7 @@ define([
      * @returns {array}
      *     Array representation of key.
      */
-    ns.base32decode = _base32decode;
+    ns.base32decode = utils.base32decode;
     
 
     return ns;

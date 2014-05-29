@@ -14,8 +14,9 @@
 
 define([
     "jodid25519/core",
+    "jodid25519/utils",
     "chai",
-], function(ns, chai) {
+], function(ns, utils, chai) {
     "use strict";
 
     var assert = chai.assert;
@@ -26,8 +27,8 @@ define([
         describe('format conversion test', function() {
             it('round trip comparisons hexdecode()/hexencode()', function() {
                 for (var i = 0; i < 8; i++) {
-                    var middle = ns.hexdecode(_td.TEST_VECTORS_HEX[i][2]);
-                    assert.strictEqual(ns.hexencode(middle),
+                    var middle = utils.hexDecode(_td.TEST_VECTORS_HEX[i][2]);
+                    assert.strictEqual(utils.hexEncode(middle),
                                        _td.TEST_VECTORS_HEX[i][2]);
                 }
             });

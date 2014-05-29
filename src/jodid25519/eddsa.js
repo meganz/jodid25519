@@ -16,8 +16,9 @@
 define([
     "jodid25519/core",
     "jodid25519/curve255",
+    "jodid25519/utils",
     "jsbn",
-], function(core, curve255, jsbn) {
+], function(core, curve255, utils, jsbn) {
     "use strict";
 
     /**
@@ -51,7 +52,7 @@ define([
         } else if ((c === Array) && (value.length === 32)) {
             this.n = _bytes2bi255(value).n;
         } else if (c === String) {
-            this.n = core.hexdecode(value);
+            this.n = utils.hexDecode(value);
         } else if (c === Number) {
             this.n = [value & 0xffff,
                       value >> 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -64,10 +65,10 @@ define([
 
    _bi255.prototype = {
         'toString' : function() {
-            return core.hexencode(this.n);
+            return utils.hexEncode(this.n);
         },
         'toSource' : function() {
-            return '_' + core.hexencode(this.n);
+            return '_' + utils.hexEncode(this.n);
         },
         'plus' : function(n1) {
             return _bi255(core.bigintadd(this.n, n1.n));
@@ -402,7 +403,7 @@ define([
     function _bi(value, base) {
         if (base !== undefined) {
             if (base === 256) {
-                return _bi(_string2bytes(value));
+                return _bi(utils.string2bytes(value));
             }
             return new jsbn.BigInteger(value, base);
         } else if (typeof value === 'string') {
@@ -481,16 +482,9 @@ define([
     function _chr(n) {
         return String.fromCharCode(n);
     }
+    
     function _ord(c) {
         return c.charCodeAt(0);
-    }
-
-    function _bytes2string(bytes) {
-        return _map(_chr, bytes).join('');
-    }
-
-    function _string2bytes(s) {
-        return _map(_ord, s);
     }
 
     function _pt_add(p1, p2) {
@@ -511,7 +505,7 @@ define([
      */
     ns.isOnCurve = function(p) {
         try {
-            _isoncurve(_decodepoint(_string2bytes(p)));
+            _isoncurve(_decodepoint(utils.string2bytes(p)));
         } catch(e) {
             if (e === 'Point is not on curve') {
                 return false;
@@ -537,36 +531,7 @@ define([
      *     (32 bytes).
      */
     ns.publicKey = function(sk) {
-        return _bytes2string(_publickey(sk));
-    };
-
-    
-    /**
-     * Converts an 8-bit integer array representation to a byte string.
-     *
-     * @function
-     * @param bytes {array}
-     *     Array of 8-bit integers.
-     * @returns {string}
-     *     Byte string representation (8-bit characters only).
-     */
-    ns.bytes2string = function(bytes) {
-        return _bytes2string(bytes);
-    };
-
-    
-    /**
-     * Converts a byte string representation to an array of unsigned
-     * 8-bit integers.
-     *
-     * @function
-     * @param text {string}
-     *     Byte string representation (8-bit characters only).
-     * @returns {array}
-     *     Array of 8-bit integers.
-     */
-    ns.string2bytes = function(text) {
-        return _string2bytes(text);
+        return utils.bytes2string(_publickey(sk));
     };
 
     
@@ -597,7 +562,7 @@ define([
         if (pk === undefined) {
             pk = _publickey(sk);
         } else {
-            pk = _string2bytes(pk);
+            pk = utils.string2bytes(pk);
         }
         var a = _bi(_get_a(sk).toString(), 16);
         var hs = _stringhash(sk);
@@ -607,7 +572,7 @@ define([
         r = _bi(r).mod(_bi(1, 10).shiftLeft(512));
         var s = _map(_chr, erp).join('') + _map(_chr, pk).join('') + message;
         s = _inthash_mod_l(s).multiply(a).add(r).mod(_L_BI);
-        return _bytes2string(erp.concat(_encodeint(s)));
+        return utils.bytes2string(erp.concat(_encodeint(s)));
     };
 
         
@@ -630,13 +595,13 @@ define([
      *     true, if the signature verifies.
      */
     ns.checkSig = function(sig, message, pk) {
-        sig = _string2bytes(sig.slice(0, 64));
-        pk = _string2bytes(pk);
+        sig = utils.string2bytes(sig.slice(0, 64));
+        pk = utils.string2bytes(pk);
         var rpe = sig.slice(0, 32);
         var rp = _decodepoint(rpe);
         var a = _decodepoint(pk);
         var s = _decodeint(sig.slice(32, 64));
-        var h = _inthash(_bytes2string(rpe.concat(pk)) + message);
+        var h = _inthash(utils.bytes2string(rpe.concat(pk)) + message);
         var v1 = _scalarmult(_bp, s);
         var value = _scalarmultBytes(a, _bi2bytes(h));
         var v2 = _pt_add(rp, value);

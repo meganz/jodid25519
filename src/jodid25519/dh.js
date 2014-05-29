@@ -14,8 +14,9 @@
 
 define([
     "jodid25519/core",
+    "jodid25519/utils",
     "jodid25519/curve255",
-], function(core, curve255) {
+], function(core, utils, curve255) {
     "use strict";
 
     /**
@@ -27,6 +28,26 @@ define([
      */
     var ns = {};
 
+    
+    function _toString(vector) {
+        var result = [];
+        for (var i = 0; i < vector.length; i++) {
+            result.push(String.fromCharCode(vector[i] & 0xff));
+            result.push(String.fromCharCode(vector[i] >>> 8));
+        }
+        return result.join('');
+    }
+    
+    function _fromString(vector) {
+        var result = new Array(16);
+        for (var i = 0, l = 0; i < vector.length; i += 2) {
+            result[l] = (vector.charCodeAt(i + 1) << 8) | vector.charCodeAt(i);
+            l++;
+        }
+        return result;
+    }
+
+    
     /**
      * Computes a key through scalar multiplication of a point on the curve 25519.
      *
@@ -50,10 +71,10 @@ define([
      */
     ns.computeKey = function(secretKey, publicComponent) {
         if (publicComponent) {
-            return core.toString(curve255.curve25519(core.fromString(secretKey),
-                                                     core.fromString(publicComponent)));
+            return _toString(curve255.curve25519(_fromString(secretKey),
+                                                 _fromString(publicComponent)));
         } else {
-            return core.toString(curve255.curve25519(core.fromString(secretKey)));
+            return _toString(curve255.curve25519(_fromString(secretKey)));
         }
     };
 
@@ -72,7 +93,7 @@ define([
      *     Public key point as byte string resulting from scalar product.
      */
     ns.publicKey = function(privateKey) {
-        return core.toString(curve255.curve25519(core.fromString(privateKey)));
+        return _toString(curve255.curve25519(_fromString(privateKey)));
     };
     
 
