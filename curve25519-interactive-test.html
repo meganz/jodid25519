@@ -3,15 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <title>Generate a shared secret with Curve25519</title>
-<script type="text/javascript" src="curve255.js"></script>
+<script type="text/javascript" src="node_modules/requirejs/require.js"></script>
 <script type="text/javascript">
-// This version of the functions takes as arguments and returns keys in base32 encoding
-function curve25519b32(a, b) {
+if (typeof requirejs == "undefined") {
+  alert("Requirejs was not loaded or installed properly");
+};
+requirejs.config({ baseUrl: "src/" });
+require(['jodid25519/curve255'], function(l) {
+// This version of the function takes as arguments and returns keys in base32 encoding
+window.curve25519b32 = function (a, b) {
   if (b != null) {
-	b = c255lbase32decode(b);
+	b = l.c255lbase32decode(b);
   };
-  return c255lbase32encode(curve25519(c255lbase32decode(a), b));
+  return l.base32encode(l.curve25519(l.base32decode(a), b));
 }
+});
 </script>
 </head>
 <body style="text-align:right;">
