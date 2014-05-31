@@ -2,6 +2,8 @@ Javascript implementation of the Curve25519 and Ed25519 elliptic cryptography fu
 
 For the API, please consult the generated documentation under doc/ (you can run `make` to generate it).
 
+To run the unit tests: `make test`.
+
 Contributors
 ------------
 
