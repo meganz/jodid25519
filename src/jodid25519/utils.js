@@ -15,8 +15,8 @@
  */
 
 define([
-    // No requirements here.
-], function() {
+    "jodid25519/core",
+], function(core) {
     "use strict";
 
     /**
