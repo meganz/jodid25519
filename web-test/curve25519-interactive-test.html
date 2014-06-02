@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Generate a shared secret with Curve25519-based Diffie-Hellman</title>
+<script type="text/javascript" src="../node_modules/requirejs/require.js"></script>
+<script type="text/javascript">
+if (typeof requirejs == "undefined") {
+  alert("Requirejs was not loaded or installed properly");
+};
+requirejs.config({ baseUrl: "../src/" });
+require([
+    'jodid25519/utils',
+    'jodid25519/dh',
+],function(utils, dh) {
+// This version of the function takes as arguments and returns keys in base64 encoding
+window.curve25519b64 = function (a, b) {
+  if (b != null) {
+	b = atob(b);
+  };
+  return btoa(dh.computeKey(atob(a), b));
+}
+});
+</script>
+</head>
+<body style="text-align:right;">
+
+<h2>Generate a shared secret with Curve25519-based Diffie-Hellman</h2>
+
+<p>Note: The keys accepted and printed in this form are base-64 encoded.</p>
+
+<form>
+  My private key:
+  <input style="text-align:right" type="password" name="privatekey" size="64" />
+  <br />
+  <input type="button"
+         onClick="javascript:this.parentNode.mypublickey.value = curve25519b64(this.parentNode.privatekey.value)"
+         value="Compute my public key" />
+  <input style="text-align:right" type=text name="mypublickey"
+         value="AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" size="64" />
+  <br />
+  <br />
+  Other's public key:
+  <input style="text-align:right" type="text" name="publickey" size="64" />
+  <br />
+  <input type="button"
+         onClick="javascript:this.parentNode.sharedsecret.value = curve25519b64(this.parentNode.privatekey.value, this.parentNode.publickey.value)"
+         value="Compute shared secret" />
+  <input style="text-align:right" type=text name="sharedsecret"
+         value="AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" size="64" />
+</form>
+
+<h2>Example keys</h2>
+
+<table border="1" align="center">
+  <tr>
+    <td><b>Alice private:</b></td>
+    <td><pre>dwdtCnMYpX08FsFyUbJmRd9ML4frwJkqsXf7pR25LCo=</pre></td>
+  </tr>
+  <tr>
+    <td><b>Alice public:</b></td>
+    <td><pre>hSDwCYkwp1R0i33ctD73Wg2/Og0mOBr066SpjqqbTmo=</pre></td>
+  </tr>
+  <tr>
+    <td><b>Bob private:</b></td>
+    <td><pre>XasIfmJKikt54X+Lg4AO5m87sSkmGLb9HC+LJ/+I4Os=</pre></td>
+  </tr>
+  <tr>
+    <td><b>Bob public:</b></td>
+    <td><pre>3p7bfXt9wbTTW2HC7OQ1Nz+DQ8hbeGdNrfx+FG+IK08=</pre></td>
+  </tr>
+  <tr>
+    <td><b>Shared secret key:</b></td>
+    <td><pre>Sl2dW6TOLeFyjjv0gDUPJeB+IclH0Z4zdvCbPB4WF0I=</pre></td>
+  </tr>
+</table>
+
+<h2>Further Info</h2>
+
+<p>
+  <a href="compliance-test.html">Verify current browser and library</a> -
+  <a href="https://github.com/meganz/jodid25519">Source code on GitHub</a>
+</p>
+
+</body>
+</html>

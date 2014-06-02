@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Generate a shared secret with Curve25519</title>
+<script type="text/javascript" src="../node_modules/requirejs/require.js"></script>
+<script type="text/javascript">
+if (typeof requirejs == "undefined") {
+  alert("Requirejs was not loaded or installed properly");
+};
+requirejs.config({ baseUrl: "../src/" });
+require(['jodid25519/curve255'], function(curve255) {
+<script type="text/javascript" src="../curve255.js"></script>
+</head>
+<body>
+  <span>Testing...</span>
+  <script type="text/javascript" src="test-curve25519-quick.js"></script>
+</body>
+</html>
