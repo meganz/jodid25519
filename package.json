@@ -10,8 +10,8 @@
     "doc": "doc"
   },
   "scripts": {
-    "test": "karma start --singleRun=true karma.conf.js",
-    "test-full": "TEST_FULL=true karma start --preprocessors= --singleRun=true karma.conf.js",
+    "test": "karma start --singleRun=true karma.conf.js --browsers PhantomJS",
+    "test-full": "TEST_FULL=true karma start --preprocessors= --singleRun=true karma.conf.js --browsers PhantomJS",
     "test-timing": "TEST_TIMING=true karma start --preprocessors= --singleRun=true karma.conf.js",
     "api-doc": "./node_modules/.bin/jsdoc --destination doc/api/ --private --configure jsdoc.json --recurse src/",
     "build-partial": "make build-test-partial",

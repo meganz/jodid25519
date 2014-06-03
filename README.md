@@ -1,3 +1,6 @@
+Jodid25519 [![Build Status](https://secure.travis-ci.org/meganz/jodid25519.png)](https://travis-ci.org/meganz/jodid25519)
+===================================================================================================================================
+
 Javascript implementation of the Curve25519 and Ed25519 elliptic cryptography functions by Daniel J. Bernstein.
 
 For the API, please consult the generated documentation under doc/ (you can run `make` to generate it).
