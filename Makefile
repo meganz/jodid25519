@@ -44,7 +44,7 @@ $(BUILDDIR)/build-config-shared.js: src/config.js Makefile
 	mv "$@.tmp" "$@"
 
 $(BUILDDIR)/jodid25519-static.js: build-static
-build-full: $(R_JS) $(BUILDDIR)/build-config-static.js
+build-static: $(R_JS) $(BUILDDIR)/build-config-static.js
 	$(R_JS) -o $(BUILDDIR)/build-config-static.js out="$(BUILDDIR)/jodid25519-static.js" \
 	  $(R_JS_ALMOND_OPTS) include=jodid25519 optimize=$(OPTIMIZE)
 
