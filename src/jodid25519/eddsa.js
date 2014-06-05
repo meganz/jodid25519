@@ -175,7 +175,7 @@ define([
                      0xffff, 0xffff, 0x7fff]);
 
     function _modq(n) {
-        _myReduce(n.n);
+        core.reduce(n.n);
         if (n.cmp(_Q) >= 0) {
             return _modq(n.minus(_Q));
         }
@@ -196,55 +196,6 @@ define([
     var _L = _bi255('1000000000000000000000000000000014def9dea2f79cd65812631a5cf5d3ed');
     var _L_BI = _bi('1000000000000000000000000000000014def9dea2f79cd65812631a5cf5d3ed', 16);
 
-
-    /**
-     * TODO: Check whether we can find a better way to stay closer to the curve255 version.
-     *
-     * This function has been modified up to be closer to constant time.
-     *
-     * It is copied from curve255.js core.reduce(), but it failed if the
-     * conditional ``if (v < 0x8000)`` was omitted in this implementation.
-     */
-    function _myReduce(arr) {
-        var aCopy = arr.slice(0);
-        var choice = [arr, aCopy];
-        var v = arr[15];
-        // Use the dummy copy instead of just returning to be more constant time.
-        var a = choice[(v >>> 15) & 1];
-        a[15] = v & 0x7fff;
-        v = (v >>> 15) * 19;
-        a[0] = (v += a[0]) & 0xffff;
-        v = v >>> 16;
-        a[1] = (v += a[1]) & 0xffff;
-        v = v >>> 16;
-        a[2] = (v += a[2]) & 0xffff;
-        v = v >>> 16;
-        a[3] = (v += a[3]) & 0xffff;
-        v = v >>> 16;
-        a[4] = (v += a[4]) & 0xffff;
-        v = v >>> 16;
-        a[5] = (v += a[5]) & 0xffff;
-        v = v >>> 16;
-        a[6] = (v += a[6]) & 0xffff;
-        v = v >>> 16;
-        a[7] = (v += a[7]) & 0xffff;
-        v = v >>> 16;
-        a[8] = (v += a[8]) & 0xffff;
-        v = v >>> 16;
-        a[9] = (v += a[9]) & 0xffff;
-        v = v >>> 16;
-        a[10] = (v += a[10]) & 0xffff;
-        v = v >>> 16;
-        a[11] = (v += a[11]) & 0xffff;
-        v = v >>> 16;
-        a[12] = (v += a[12]) & 0xffff;
-        v = v >>> 16;
-        a[13] = (v += a[13]) & 0xffff;
-        v = v >>> 16;
-        a[14] = (v += a[14]) & 0xffff;
-        v = v >>> 16;
-        a[15] += v;
-    }
 
     // ////////////////////////////////////////////////////////////
 
@@ -498,14 +449,14 @@ define([
      * Checks whether a point is on the curve.
      *
      * @function
-     * @param p {string}
+     * @param point {string}
      *     The point to check for in a byte string representation.
      * @returns
      *     true if the point is on the curve, false otherwise.
      */
-    ns.isOnCurve = function(p) {
+    ns.isOnCurve = function(point) {
         try {
-            _isoncurve(_decodepoint(utils.string2bytes(p)));
+            _isoncurve(_decodepoint(utils.string2bytes(point)));
         } catch(e) {
             if (e === 'Point is not on curve') {
                 return false;
@@ -524,14 +475,14 @@ define([
      * multi-byte characters.</p>
      *
      * @function
-     * @param sk {string}
+     * @param keySeed {string}
      *     Private key seed in the form of a byte string.
      * @returns {string}
      *     Public key as byte string computed from the private key seed
      *     (32 bytes).
      */
-    ns.publicKey = function(sk) {
-        return utils.bytes2string(_publickey(sk));
+    ns.publicKey = function(keySeed) {
+        return utils.bytes2string(_publickey(keySeed));
     };
 
     
@@ -550,58 +501,58 @@ define([
      * @function
      * @param message {string}
      *     Message in the form of a byte string.
-     * @param sk {string}
+     * @param keySeed {string}
      *     Private key seed in the form of a byte string.
-     * @param pk {string}
+     * @param publicKey {string}
      *     Public key as byte string (if not present, it will be computed from
      *     the private key seed).
      * @returns {string}
      *     Detached message signature in the form of a byte string (64 bytes).
      */
-    ns.signature = function(message, sk, pk) {
-        if (pk === undefined) {
-            pk = _publickey(sk);
+    ns.sign = function(message, keySeed, publicKey) {
+        if (publicKey === undefined) {
+            publicKey = _publickey(keySeed);
         } else {
-            pk = utils.string2bytes(pk);
+            publicKey = utils.string2bytes(publicKey);
         }
-        var a = _bi(_get_a(sk).toString(), 16);
-        var hs = _stringhash(sk);
+        var a = _bi(_get_a(keySeed).toString(), 16);
+        var hs = _stringhash(keySeed);
         var r = _bytehash(hs.slice(32, 64) + message);
         var rp = _scalarmultBytes(_bp, r);
         var erp = _encodepoint(rp);
         r = _bi(r).mod(_bi(1, 10).shiftLeft(512));
-        var s = _map(_chr, erp).join('') + _map(_chr, pk).join('') + message;
+        var s = _map(_chr, erp).join('') + _map(_chr, publicKey).join('') + message;
         s = _inthash_mod_l(s).multiply(a).add(r).mod(_L_BI);
         return utils.bytes2string(erp.concat(_encodeint(s)));
     };
 
         
     /**
-     * Checks an EdDSA signature of a message with the public key.
+     * Verifies an EdDSA signature of a message with the public key.
      *
      * <p>Note: Unicode messages need to be converted to a byte representation
      * (e. g. UTF-8).</p>
      *
      * @function
-     * @param sig {string}
+     * @param signature {string}
      *     Message signature in the form of a byte string. Can be detached
      *     (64 bytes), or attached to be sliced off.
      * @param message {string}
      *     Message in the form of a byte string.
-     * @param pk {string}
+     * @param publicKey {string}
      *     Public key as byte string (if not present, it will be computed from
      *     the private key seed).
      * @returns {bool}
      *     true, if the signature verifies.
      */
-    ns.checkSig = function(sig, message, pk) {
-        sig = utils.string2bytes(sig.slice(0, 64));
-        pk = utils.string2bytes(pk);
-        var rpe = sig.slice(0, 32);
+    ns.verify = function(signature, message, publicKey) {
+        signature = utils.string2bytes(signature.slice(0, 64));
+        publicKey = utils.string2bytes(publicKey);
+        var rpe = signature.slice(0, 32);
         var rp = _decodepoint(rpe);
-        var a = _decodepoint(pk);
-        var s = _decodeint(sig.slice(32, 64));
-        var h = _inthash(utils.bytes2string(rpe.concat(pk)) + message);
+        var a = _decodepoint(publicKey);
+        var s = _decodeint(signature.slice(32, 64));
+        var h = _inthash(utils.bytes2string(rpe.concat(publicKey)) + message);
         var v1 = _scalarmult(_bp, s);
         var value = _scalarmultBytes(a, _bi2bytes(h));
         var v2 = _pt_add(rp, value);
@@ -616,15 +567,7 @@ define([
      * @returns {string}
      *     Byte string containing a new random private key seed.
      */
-    ns.genKeySeed = function() {
-        var buffer = new Uint8Array(32);
-        asmCrypto.getRandomValues(buffer);
-        var result = [];
-        for (var i = 0; i < buffer.length; i++) {
-            result.push(String.fromCharCode(buffer[i]));
-        }
-        return result.join('');
-    };
+    ns.generateKeySeed = core.generateKey;
     
     
     return ns;

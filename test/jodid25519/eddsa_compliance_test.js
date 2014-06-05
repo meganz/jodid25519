@@ -40,13 +40,13 @@ define([
                         assert.strictEqual(pk, pkCheck, 'pk mismatch');
 
                         var sigCheck = atob(vector[3]).slice(0, 64);
-                        var sig = ns.signature(msg, key, pk);
+                        var sig = ns.sign(msg, key, pk);
                         assert.strictEqual(sig, sigCheck, 'sig mismatch');
-                        assert.ok(ns.checkSig(sig, msg, pk), 'verify mismatch');
+                        assert.ok(ns.verify(sig, msg, pk), 'verify mismatch');
 
                         var badmsg = msg.substring(0, msg.length - 2) + String.fromCharCode(msg.charCodeAt(msg.length - 1) + 1);
                         assert.notEqual(badmsg, msg);
-                        assert.notOk(ns.checkSig(sig, badmsg, pk), 'verify false-positive for bad message');
+                        assert.notOk(ns.verify(sig, badmsg, pk), 'verify false-positive for bad message');
                     });
                 }(i));
             }

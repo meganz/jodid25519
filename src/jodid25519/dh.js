@@ -61,7 +61,7 @@ define([
      * key is a uniformly random, secret value.
      *
      * @function
-     * @param secretKey {string}
+     * @param privateComponent {string}
      *     Private point as byte string on the curve.
      * @param publicComponent {string}
      *     Public point as byte string on the curve. If not given, the curve's
@@ -69,12 +69,12 @@ define([
      * @returns {string}
      *     Key point as byte string resulting from scalar product.
      */
-    ns.computeKey = function(secretKey, publicComponent) {
+    ns.computeKey = function(privateComponent, publicComponent) {
         if (publicComponent) {
-            return _toString(curve255.curve25519(_fromString(secretKey),
+            return _toString(curve255.curve25519(_fromString(privateComponent),
                                                  _fromString(publicComponent)));
         } else {
-            return _toString(curve255.curve25519(_fromString(secretKey)));
+            return _toString(curve255.curve25519(_fromString(privateComponent)));
         }
     };
 
@@ -95,6 +95,16 @@ define([
     ns.publicKey = function(privateKey) {
         return _toString(curve255.curve25519(_fromString(privateKey)));
     };
+
+
+    /**
+     * Generates a new random private key of 32 bytes length (256 bit).
+     *
+     * @function
+     * @returns {string}
+     *     Byte string containing a new random private key seed.
+     */
+    ns.generateKey = core.generateKey;
     
 
     return ns;

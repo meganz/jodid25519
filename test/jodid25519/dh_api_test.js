@@ -49,5 +49,17 @@ define([
                 assert.notStrictEqual(btoa(result), _td.ALICE_PUB);
             });
         });
+        
+        describe('generateKey() function', function() {
+            it('generate several different private keys', function() {
+                var compare = '';
+                for (var i = 0; i < 5; i++) {
+                    var key = ns.generateKey();
+                    assert.lengthOf(key, 32);
+                    assert.notStrictEqual(key, compare);
+                    compare = key;
+                }
+            });
+        });
     });
 });

@@ -285,9 +285,13 @@ define([
         _reduce(r);
         return r;
     }
- 
-    function _reduce(a) {
-        var v = a[15];
+    
+    function _reduce(arr) {
+        var aCopy = arr.slice(0);
+        var choice = [arr, aCopy];
+        var v = arr[15];
+        // Use the dummy copy instead of just returning to be more constant time.
+        var a = choice[(v < 0x8000) & 1];
         a[15] = v & 0x7fff;
         // >32-bits of precision are required here so '/ 0x8000' can not be
         // replaced by the arithmetic equivalent '>>> 15'
@@ -436,6 +440,16 @@ define([
         return [x_3, z_3];
     }
     
+    function _generateKey() {
+        var buffer = new Uint8Array(32);
+        asmCrypto.getRandomValues(buffer);
+        var result = [];
+        for (var i = 0; i < buffer.length; i++) {
+            result.push(String.fromCharCode(buffer[i]));
+        }
+        return result.join('');
+    }
+    
     // Expose some functions to the outside through this name space.
     // Note: This is not part of the public API.
     ns.getbit = _getbit;
@@ -453,6 +467,7 @@ define([
     ns.bigintcmp = _bigintcmp;
     ns.mulmodp = _mulmodp;
     ns.sqrmodp = _sqrmodp;
+    ns.generateKey = _generateKey;
     
     
     return ns;

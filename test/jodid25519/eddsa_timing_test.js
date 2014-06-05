@@ -68,8 +68,8 @@ define([
                     var msg = atob(vector[2]);
                     var pk = atob(vector[1]);
                     var check = timeIt(timings, function() {
-                        var sig = ns.signature(msg, key, pk);
-                        return ns.checkSig(sig, msg, pk);
+                        var sig = ns.sign(msg, key, pk);
+                        return ns.verify(sig, msg, pk);
                     });
                     assert.ok(check, 'verify mismatch on test ' + i);
                 }
@@ -87,7 +87,7 @@ define([
                     var msg = atob(vector[2]);
                     var pk = atob(vector[1]);
                     timeIt(timings, function() {
-                        return ns.signature(msg, key, pk);
+                        return ns.sign(msg, key, pk);
                     });
                 }
                 console.log('Duration per signature ' + timingStatsText(timings));
@@ -104,7 +104,7 @@ define([
                     var pk = atob(vector[1]);
                     var sigCheck = atob(vector[3]).slice(0, 64);
                     var check = timeIt(timings, function() {
-                        return ns.checkSig(sigCheck, msg, pk);
+                        return ns.verify(sigCheck, msg, pk);
                     });
                     assert.ok(check, 'verify mismatch on test ' + i);
                 }
@@ -146,7 +146,7 @@ define([
                 for (var i = 0; arraySum(timings) < MAX_TEST_DURATION
                         && i < NUM_TESTS || i < MIN_TESTS; i++) {
                     timeIt(timings, function() {
-                        return ns.genKeySeed();
+                        return ns.generateKeySeed();
                     });
                 }
                 console.log('Duration per key seed generation ' + timingStatsText(timings));

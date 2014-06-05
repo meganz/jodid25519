@@ -28,8 +28,8 @@ define([
                     var msg = tests[i][0];
                     var key = tests[i][1];
                     var pk = ns.publicKey(key);
-                    var sig = ns.signature(msg, key, pk);
-                    assert.ok(ns.checkSig(sig, msg, pk));
+                    var sig = ns.sign(msg, key, pk);
+                    assert.ok(ns.verify(sig, msg, pk));
                 }
             });
         });

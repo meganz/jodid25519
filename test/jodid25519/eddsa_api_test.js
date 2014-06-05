@@ -23,14 +23,14 @@ define([
     var _td = _td_eddsa;
 
     describe("API tests", function() {
-        describe('checkSig() function', function() {
+        describe('verify() function', function() {
             it('signature R not on curve', function() {
                 var vector = _td.SIGN_INPUT[42];
                 var msg = atob(vector[2]);
                 var pk = atob(vector[1]);
                 var sigOrig = atob(vector[3]).slice(0, 64);
                 var sigMod = String.fromCharCode(0x42) + sigOrig.slice(1, 64);
-                assert.throws(function() { ns.checkSig(sigMod, msg, pk); },
+                assert.throws(function() { ns.verify(sigMod, msg, pk); },
                               'Point is not on curve');
             });
 
@@ -39,7 +39,7 @@ define([
                 var msg = atob(vector[2]);
                 var pk = String.fromCharCode(0x42) + atob(vector[1]).slice(1, 32);
                 var sig = atob(vector[3]).slice(0, 64);
-                assert.throws(function() { ns.checkSig(sig, msg, pk); },
+                assert.throws(function() { ns.verify(sig, msg, pk); },
                               'Point is not on curve');
             });
 
@@ -48,18 +48,18 @@ define([
                 var msg = atob(vector[2]);
                 var pk = atob(vector[1]);
                 var sig = atob(vector[3]).slice(0, 64);
-                assert.ok(ns.checkSig(sig, msg, pk));
+                assert.ok(ns.verify(sig, msg, pk));
             });
         });
 
-        describe('signature() function', function() {
+        describe('sign() function', function() {
             it('signature call with pk', function() {
                 var vector = _td.SIGN_INPUT[42];
                 var key = atob(vector[0]).slice(0, 32);
                 var msg = atob(vector[2]);
                 var pk = atob(vector[1]);
                 var sigCheck = atob(vector[3]).slice(0, 64);
-                var sig = ns.signature(msg, key, pk);
+                var sig = ns.sign(msg, key, pk);
                 assert.strictEqual(sig, sigCheck);
             });
 
@@ -68,7 +68,7 @@ define([
                 var key = atob(vector[0]).slice(0, 32);
                 var msg = atob(vector[2]);
                 var sigCheck = atob(vector[3]).slice(0, 64);
-                var sig = ns.signature(msg, key);
+                var sig = ns.sign(msg, key);
                 assert.strictEqual(sig, sigCheck);
             });
 
@@ -78,7 +78,7 @@ define([
                 var msg = atob(vector[2]);
                 var pk = String.fromCharCode(0x42) + atob(vector[1]).slice(1, 32);
                 var sigCheck = atob(vector[3]).slice(0, 64);
-                var sig = ns.signature(msg, key, pk);
+                var sig = ns.sign(msg, key, pk);
                 assert.notStrictEqual(sig, sigCheck);
             });
         });
@@ -97,11 +97,11 @@ define([
             });
         });
 
-        describe('genKeySeed() function', function() {
+        describe('generateKeySeed() function', function() {
             it('generate several different key seeds', function() {
                 var compare = '';
                 for (var i = 0; i < 5; i++) {
-                    var keySeed = ns.genKeySeed();
+                    var keySeed = ns.generateKeySeed();
                     assert.lengthOf(keySeed, 32);
                     assert.notStrictEqual(keySeed, compare);
                     compare = keySeed;
