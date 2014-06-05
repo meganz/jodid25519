@@ -49,7 +49,7 @@ build-full: $(R_JS) $(BUILDDIR)/build-config-static.js
 	  $(R_JS_ALMOND_OPTS) include=jodid25519 optimize=$(OPTIMIZE)
 
 $(BUILDDIR)/jodid25519-shared.js: build-shared
-build-partial: $(R_JS) $(BUILDDIR)/build-config-shared.js
+build-shared: $(R_JS) $(BUILDDIR)/build-config-shared.js
 	$(R_JS) -o $(BUILDDIR)/build-config-shared.js out="$(BUILDDIR)/jodid25519-shared.js" \
 	  $(R_JS_ALMOND_OPTS) include=jodid25519 optimize=$(OPTIMIZE)
 
