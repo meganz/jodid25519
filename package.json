@@ -37,6 +37,9 @@
   "author": "Michele Bini, Ron Garret, Guy K. Kloss",
   "license": "MIT",
   "readmeFilename": "README.md",
+  "dependencies": {
+    "jsbn": "*"
+  },
   "devDependencies": {
     "almond": "~0.2.9",
     "karma-script-launcher": "~0.1.0",
