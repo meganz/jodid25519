@@ -14,8 +14,8 @@
     "test-full": "TEST_FULL=true karma start --preprocessors= --singleRun=true karma.conf.js --browsers PhantomJS",
     "test-timing": "TEST_TIMING=true karma start --preprocessors= --singleRun=true karma.conf.js",
     "api-doc": "./node_modules/.bin/jsdoc --destination doc/api/ --private --configure jsdoc.json --recurse src/",
-    "build-partial": "make build-test-partial",
-    "build-full": "make build-test-full"
+    "build-shared": "make test-shared",
+    "build-static": "make test-static"
   },
   "homepage": "https://github.com/meganz/jodid25519",
   "repository": {
@@ -58,6 +58,7 @@
     "ibrik": "~1.1.1",
     "dateformat": "~1.0.7-1.2.3",
     "sinon": "~1.9.0",
-    "jsdoc": "~3.3.0"
+    "jsdoc": "~3.3.0",
+    "uglify-js": "~2.4.13"
   }
 }
