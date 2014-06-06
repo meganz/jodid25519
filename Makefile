@@ -2,7 +2,7 @@
 BUILDDIR = build
 
 # Libraries to omit when building jodid25519-shared.js.
-PARTIAL_OMIT = asmcrypto jsbn jsbn2
+PARTIAL_OMIT = asmcrypto jsbn
 
 # Set to none for a non-minified build, for easier debugging.
 OPTIMIZE = none
@@ -14,7 +14,7 @@ ALMOND = ./node_modules/almond/almond
 R_JS_ALMOND_OPTS = baseUrl=src name=../$(ALMOND) wrap.startFile=almond.0 wrap.endFile=almond.1
 UGLIFY = ./node_modules/.bin/uglifyjs
 
-all: test api-doc dist test-shared test-static
+all: test api-doc dist test-shared
 
 test-timing:
 	KARMA_FLAGS='--preprocessors=' TEST_TIMING=true $(MAKE) test
@@ -68,7 +68,7 @@ $(KARMA) $(JSDOC) $(R_JS) $(UGLIFY):
 	npm install
 
 clean:
-	rm -rf doc/api/ coverage/ build/
+	rm -rf doc/api/ coverage/ build/ lib/
 
 .PHONY: all test api-doc clean
 .PHONY: build-static build-shared test-static test-shared dist

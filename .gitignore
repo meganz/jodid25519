@@ -9,7 +9,7 @@
 coverage
 node_modules
 
-# Documentation generator
+# Build directories
 doc/api
-
+lib/
 build/

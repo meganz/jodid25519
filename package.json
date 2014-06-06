@@ -10,6 +10,7 @@
     "doc": "doc"
   },
   "scripts": {
+    "preinstall": "mkdir lib/ && wget -O lib/asmcrypto.js http://vibornoff.com/asmcrypto.js",
     "test": "karma start --singleRun=true karma.conf.js --browsers PhantomJS",
     "test-full": "TEST_FULL=true karma start --preprocessors= --singleRun=true karma.conf.js --browsers PhantomJS",
     "test-timing": "TEST_TIMING=true karma start --preprocessors= --singleRun=true karma.conf.js",
@@ -38,7 +39,8 @@
   "license": "MIT",
   "readmeFilename": "README.md",
   "dependencies": {
-    "jsbn": "*"
+    "jsbn": "*",
+    "asmcrypto": "git://github.com/vibornoff/asmcrypto.js.git#v0.0.1"
   },
   "devDependencies": {
     "almond": "~0.2.9",
