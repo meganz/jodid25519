@@ -380,9 +380,6 @@ define([
         return bytes;
     }
 
-//    jsbn.BigInteger.prototype.toSource = function() {
-//        return this.toString(16);
-//    };
     jsbn.BigInteger.prototype.bytes = function(n) {
         return _bi2bytes(this, n);
     };
@@ -451,7 +448,7 @@ define([
      * @function
      * @param point {string}
      *     The point to check for in a byte string representation.
-     * @returns
+     * @returns {boolean}
      *     true if the point is on the curve, false otherwise.
      */
     ns.isOnCurve = function(point) {
@@ -542,7 +539,7 @@ define([
      * @param publicKey {string}
      *     Public key as byte string (if not present, it will be computed from
      *     the private key seed).
-     * @returns {bool}
+     * @returns {boolean}
      *     true, if the signature verifies.
      */
     ns.verify = function(signature, message, publicKey) {
