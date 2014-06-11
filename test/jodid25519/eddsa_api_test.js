@@ -15,13 +15,15 @@
 define([
     "jodid25519/eddsa",
     "chai",
-], function(ns, chai) {
+    "asmcrypto",
+], function(ns, chai, asmCrypto) {
     "use strict";
     
     var assert = chai.assert;
     
     var _td = _td_eddsa;
-
+    asmCrypto.random.seed(new Uint8Array([42]));
+    
     describe("API tests", function() {
         describe('verify() function', function() {
             it('signature R not on curve', function() {
