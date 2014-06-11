@@ -15,12 +15,14 @@
 define([
     "jodid25519/dh",
     "chai",
-], function(ns, chai) {
+    "asmcrypto",
+], function(ns, chai, asmCrypto) {
     "use strict";
     
     var assert = chai.assert;
     
     var _td = _td_dh;
+    asmCrypto.random.seed(new Uint8Array([42]));
 
     describe("API tests", function() {
         describe('computeKey() function', function() {

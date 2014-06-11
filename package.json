@@ -10,13 +10,12 @@
     "doc": "doc"
   },
   "scripts": {
-    "preinstall": "mkdir lib/ && wget -O lib/asmcrypto.js http://vibornoff.com/asmcrypto.js",
-    "test": "karma start --singleRun=true karma.conf.js --browsers PhantomJS",
+    "test": "make dependencies && karma start --singleRun=true karma.conf.js --browsers PhantomJS",
     "test-full": "TEST_FULL=true karma start --preprocessors= --singleRun=true karma.conf.js --browsers PhantomJS",
     "test-timing": "TEST_TIMING=true karma start --preprocessors= --singleRun=true karma.conf.js",
-    "api-doc": "./node_modules/.bin/jsdoc --destination doc/api/ --private --configure jsdoc.json --recurse src/",
-    "build-shared": "make test-shared",
-    "build-static": "make test-static"
+    "api-doc": "jsdoc --destination doc/api/ --private --configure jsdoc.json --recurse src/",
+    "build-shared": "make build-shared",
+    "build-static": "make build-static"
   },
   "homepage": "https://github.com/meganz/jodid25519",
   "repository": {
@@ -40,7 +39,7 @@
   "readmeFilename": "README.md",
   "dependencies": {
     "jsbn": "*",
-    "asmcrypto": "git://github.com/vibornoff/asmcrypto.js.git#v0.0.1"
+    "asmcrypto": "git://github.com/vibornoff/asmcrypto.js.git"
   },
   "devDependencies": {
     "almond": "~0.2.9",

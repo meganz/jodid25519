@@ -18,7 +18,8 @@ define([
     "jodid25519/curve255",
     "jodid25519/utils",
     "jsbn",
-], function(core, curve255, utils, jsbn) {
+    "asmcrypto",
+], function(core, curve255, utils, jsbn, asmCrypto) {
     "use strict";
 
     /**

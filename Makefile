@@ -13,6 +13,7 @@ R_JS   = ./node_modules/.bin/r.js
 ALMOND = ./node_modules/almond/almond
 R_JS_ALMOND_OPTS = baseUrl=src name=../$(ALMOND) wrap.startFile=almond.0 wrap.endFile=almond.1
 UGLIFY = ./node_modules/.bin/uglifyjs
+ASMCRYPTO_MODULES = utils,aes-cbc,aes-ccm,sha1,sha256,sha512,hmac-sha1,hmac-sha256,hmac-sha512,pbkdf2-hmac-sha1,pbkdf2-hmac-sha256,pbkdf2-hmac-sha512,rng,bn,rsa-pkcs1,globals-rng,globals
 
 all: test api-doc dist test-shared
 
@@ -64,8 +65,12 @@ $(BUILDDIR)/%.min.js: $(BUILDDIR)/%.js
 
 dist: $(BUILDDIR)/jodid25519-shared.min.js $(BUILDDIR)/jodid25519-static.js
 
-$(KARMA) $(JSDOC) $(R_JS) $(UGLIFY):
+dependencies:
 	npm install
+	cd node_modules/asmcrypto.js &&	npm install && node_modules/.bin/grunt --with=$(ASMCRYPTO_MODULES)
+	cd ../..
+
+$(KARMA) $(JSDOC) $(R_JS) $(UGLIFY): dependencies
 
 clean:
 	rm -rf doc/api/ coverage/ build/ lib/
