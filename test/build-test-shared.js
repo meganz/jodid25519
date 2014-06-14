@@ -25,9 +25,9 @@ function loadInlineModule(filepath) {
     return exports;
 }
 
-// Load our dependencies that we didn't link into our lib.
+// Load our dependencies that we didn't link into our library.
 for (var i = 3; i < process.argv.length; i++) {
-    eval(loadContents("../lib/" + process.argv[i] + ".js"));
+    eval(loadContents("../node_modules/" + process.argv[i] + ".js"));
 }
 
 // Load our library.
