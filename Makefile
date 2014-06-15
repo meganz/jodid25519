@@ -40,7 +40,6 @@ $(BUILDDIR)/build-config-shared.js: src/config.js Makefile
 	tail -n+2 "$<" > "$@.tmp"
 	for i in $(PARTIAL_OMIT); do \
 		sed -i -e "s,node_modules/$$i/.*\",build/$$i-dummy\"," "$@.tmp"; \
-		echo "s,node_modules/$$i/.*\",build/$$i-dummy\","; \
 		touch $(BUILDDIR)/$$i-dummy.js; \
 	done
 	mv "$@.tmp" "$@"
