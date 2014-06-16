@@ -5,8 +5,6 @@ BUILDDIR = build
 PARTIAL_OMIT = asmcrypto.js jsbn
 SHARED_JS_FILES = node_modules/asmcrypto.js/asmcrypto.js node_modules/jsbn/index.js
 
-# Set to none for a non-minified build, for easier debugging.
-OPTIMIZE = none
 
 KARMA  = ./node_modules/.bin/karma
 JSDOC  = ./node_modules/.bin/jsdoc
@@ -48,12 +46,12 @@ $(BUILDDIR)/build-config-shared.js: src/config.js Makefile
 $(BUILDDIR)/jodid25519-static.js: build-static
 build-static: $(R_JS) $(BUILDDIR)/build-config-static.js
 	$(R_JS) -o $(BUILDDIR)/build-config-static.js out="$(BUILDDIR)/jodid25519-static.js" \
-	  $(R_JS_ALMOND_OPTS) include=jodid25519 optimize=$(OPTIMIZE)
+	  $(R_JS_ALMOND_OPTS) include=jodid25519 optimize=none
 
 $(BUILDDIR)/jodid25519-shared.js: build-shared
 build-shared: $(R_JS) $(BUILDDIR)/build-config-shared.js
 	$(R_JS) -o $(BUILDDIR)/build-config-shared.js out="$(BUILDDIR)/jodid25519-shared.js" \
-	  $(R_JS_ALMOND_OPTS) include=jodid25519 optimize=$(OPTIMIZE)
+	  $(R_JS_ALMOND_OPTS) include=jodid25519 optimize=none
 
 test-static: test/build-test-static.js build-static
 	./$< ../$(BUILDDIR)/jodid25519-static.js
