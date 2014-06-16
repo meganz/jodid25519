@@ -3,6 +3,7 @@ BUILDDIR = build
 
 # Libraries to omit when building jodid25519-shared.js.
 PARTIAL_OMIT = asmcrypto.js jsbn
+SHARED_JS_FILES = node_modules/asmcrypto.js/asmcrypto.js node_modules/jsbn/index.js
 
 # Set to none for a non-minified build, for easier debugging.
 OPTIMIZE = none
@@ -58,7 +59,7 @@ test-static: test/build-test-static.js build-static
 	./$< ../$(BUILDDIR)/jodid25519-static.js
 
 test-shared: test/build-test-shared.js build-shared
-	./$< ../$(BUILDDIR)/jodid25519-shared.js $(PARTIAL_OMIT)
+	./$< ../$(BUILDDIR)/jodid25519-shared.js $(SHARED_JS_FILES)
 
 $(BUILDDIR)/%.min.js: $(BUILDDIR)/%.js
 	$(UGLIFY) $< -o $@ --source-map $@.map --mangle --compress --lint
