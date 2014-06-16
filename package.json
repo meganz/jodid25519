@@ -10,10 +10,10 @@
     "doc": "doc"
   },
   "scripts": {
-    "test": "make dependencies && karma start --singleRun=true karma.conf.js --browsers PhantomJS",
-    "test-full": "TEST_FULL=true karma start --preprocessors= --singleRun=true karma.conf.js --browsers PhantomJS",
-    "test-timing": "TEST_TIMING=true karma start --preprocessors= --singleRun=true karma.conf.js",
-    "api-doc": "jsdoc --destination doc/api/ --private --configure jsdoc.json --recurse src/",
+    "test": "make test test-shared",
+    "test-full": "make test-full",
+    "test-timing": "make test-timing",
+    "api-doc": "make api-doc",
     "build-shared": "make build-shared",
     "build-static": "make build-static"
   },
@@ -51,7 +51,7 @@
     "karma-jasmine": "~0.1.5",
     "requirejs": "~2.1.12",
     "karma-requirejs": "~0.2.2",
-    "karma": "~0.10.9",
+    "karma": "~0.12.8",
     "mocha": "~1.17.1",
     "karma-mocha": "~0.1.1",
     "karma-chai": "0.1.0",
