@@ -51,7 +51,7 @@
     "karma-jasmine": "~0.1.5",
     "requirejs": "~2.1.12",
     "karma-requirejs": "~0.2.2",
-    "karma": "~0.10.9",
+    "karma": "~0.12.8",
     "mocha": "~1.17.1",
     "karma-mocha": "~0.1.1",
     "karma-chai": "0.1.0",

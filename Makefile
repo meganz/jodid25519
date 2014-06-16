@@ -1,19 +1,20 @@
 # Build directory.
 BUILDDIR = build
+NODE_PATH = ./node_modules
 
 # Dependencies - make sure you keep DEP_ALL and DEP_ALL_NAMES up-to-date
-DEP_ASMCRYPTO = node_modules/asmcrypto.js/asmcrypto.js
-DEP_JSBN = node_modules/jsbn/index.js
+DEP_ASMCRYPTO = $(NODE_PATH)/asmcrypto.js/asmcrypto.js
+DEP_JSBN = $(NODE_PATH)/jsbn/index.js
 DEP_ALL = $(DEP_ASMCRYPTO) $(DEP_JSBN)
 DEP_ALL_NAMES = asmcrypto.js jsbn
 
 # Build-depends - make sure you keep BUILD_DEP_ALL and BUILD_DEP_ALL_NAMES up-to-date
-KARMA  = ./node_modules/.bin/karma
-JSDOC  = ./node_modules/.bin/jsdoc
-R_JS   = ./node_modules/.bin/r.js
-ALMOND = ./node_modules/almond/almond.js
+KARMA  = $(NODE_PATH)/karma/bin/karma
+JSDOC  = $(NODE_PATH)/.bin/jsdoc
+R_JS   = $(NODE_PATH)/.bin/r.js
+ALMOND = $(NODE_PATH)/almond/almond.js
 R_JS_ALMOND_OPTS = baseUrl=src name=../$(ALMOND:%.js=%) wrap.startFile=almond.0 wrap.endFile=almond.1
-UGLIFY = ./node_modules/.bin/uglifyjs
+UGLIFY = $(NODE_PATH)/.bin/uglifyjs
 BUILD_DEP_ALL = $(KARMA) $(JSDOC) $(R_JS) $(ALMOND) $(UGLIFY)
 BUILD_DEP_ALL_NAMES = karma jsdoc requirejs almond uglify-js
 
@@ -71,7 +72,7 @@ dist: $(BUILDDIR)/jodid25519-shared.min.js $(BUILDDIR)/jodid25519-static.js
 
 $(DEP_ASMCRYPTO):
 	npm install
-	cd node_modules/asmcrypto.js &&	npm install && node_modules/.bin/grunt --with=$(ASMCRYPTO_MODULES)
+	cd $(NODE_PATH)/asmcrypto.js &&	npm install && $(NODE_PATH)/.bin/grunt --with=$(ASMCRYPTO_MODULES)
 
 $(BUILD_DEP_ALL) $(DEP_JSBN):
 	npm install
@@ -81,7 +82,7 @@ clean:
 
 clean-all: clean
 	rm -f $(BUILD_DEP_ALL) $(DEP_ALL)
-	rm -rf $(BUILD_DEP_ALL_NAMES:%=node_modules/%) $(DEP_ALL_NAMES:%=node_modules/%)
+	rm -rf $(BUILD_DEP_ALL_NAMES:%=$(NODE_PATH)/%) $(DEP_ALL_NAMES:%=$(NODE_PATH)/%)
 
 .PHONY: all test api-doc clean clean-all
 .PHONY: build-static build-shared test-static test-shared dist
