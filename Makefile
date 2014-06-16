@@ -27,7 +27,7 @@ test-timing:
 test-full:
 	KARMA_FLAGS='--preprocessors=' TEST_FULL=true $(MAKE) test
 
-test: $(KARMA)
+test: $(KARMA) $(R_JS) $(DEP_ALL)
 	$(KARMA) start $(KARMA_FLAGS) --singleRun=true karma.conf.js --browsers PhantomJS
 
 api-doc: $(JSDOC)
@@ -49,22 +49,22 @@ $(BUILDDIR)/build-config-shared.js: src/config.js Makefile
 	mv "$@.tmp" "$@"
 
 $(BUILDDIR)/jodid25519-static.js: build-static
-build-static: $(R_JS) $(BUILDDIR)/build-config-static.js
+build-static: $(R_JS) $(ALMOND) $(BUILDDIR)/build-config-static.js $(DEP_ALL)
 	$(R_JS) -o $(BUILDDIR)/build-config-static.js out="$(BUILDDIR)/jodid25519-static.js" \
 	  $(R_JS_ALMOND_OPTS) include=jodid25519 optimize=none
 
 $(BUILDDIR)/jodid25519-shared.js: build-shared
-build-shared: $(R_JS) $(BUILDDIR)/build-config-shared.js
+build-shared: $(R_JS) $(ALMOND) $(BUILDDIR)/build-config-shared.js
 	$(R_JS) -o $(BUILDDIR)/build-config-shared.js out="$(BUILDDIR)/jodid25519-shared.js" \
 	  $(R_JS_ALMOND_OPTS) include=jodid25519 optimize=none
 
 test-static: test/build-test-static.js build-static
 	./$< ../$(BUILDDIR)/jodid25519-static.js
 
-test-shared: test/build-test-shared.js build-shared
+test-shared: test/build-test-shared.js build-shared $(DEP_ALL)
 	./$< ../$(BUILDDIR)/jodid25519-shared.js $(DEP_ALL)
 
-$(BUILDDIR)/%.min.js: $(BUILDDIR)/%.js
+$(BUILDDIR)/%.min.js: $(BUILDDIR)/%.js $(UGLIFY)
 	$(UGLIFY) $< -o $@ --source-map $@.map --mangle --compress --lint
 
 dist: $(BUILDDIR)/jodid25519-shared.min.js $(BUILDDIR)/jodid25519-static.js
