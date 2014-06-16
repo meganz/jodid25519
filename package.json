@@ -10,10 +10,10 @@
     "doc": "doc"
   },
   "scripts": {
-    "test": "make dependencies && karma start --singleRun=true karma.conf.js --browsers PhantomJS",
-    "test-full": "TEST_FULL=true karma start --preprocessors= --singleRun=true karma.conf.js --browsers PhantomJS",
-    "test-timing": "TEST_TIMING=true karma start --preprocessors= --singleRun=true karma.conf.js",
-    "api-doc": "jsdoc --destination doc/api/ --private --configure jsdoc.json --recurse src/",
+    "test": "make test test-shared",
+    "test-full": "make test-full",
+    "test-timing": "make test-timing",
+    "api-doc": "make api-doc",
     "build-shared": "make build-shared",
     "build-static": "make build-static"
   },
