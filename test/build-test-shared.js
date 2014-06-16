@@ -11,7 +11,7 @@ function loadContents(filepath) {
     try {
         var data = fs.readFileSync(file, "utf8");
     } catch (e) {
-        console.log("Can't load " + path);
+        console.log("Can't load " + filepath);
         process.exit(1);
     }
     return data;
@@ -19,6 +19,7 @@ function loadContents(filepath) {
 
 function loadInlineModule(filepath) {
     var old_exports = module.exports;
+    module.exports = {};
     eval(loadContents(filepath));
     var exports = module.exports;
     module.exports = old_exports;
@@ -27,7 +28,7 @@ function loadInlineModule(filepath) {
 
 // Load our dependencies that we didn't link into our library.
 for (var i = 3; i < process.argv.length; i++) {
-    eval(loadContents("../" + process.argv[i]));
+    loadInlineModule("../" + process.argv[i]);
 }
 
 // Load our library.
