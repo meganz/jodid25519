@@ -5,11 +5,11 @@
   "main": "index.js",
   "directories": {
     "src": "src",
-    "lib": "lib",
     "test": "test",
     "doc": "doc"
   },
   "scripts": {
+    "prepublish": "make jodid25519.js",
     "test": "make test test-shared",
     "test-full": "make test-full",
     "test-timing": "make test-timing",

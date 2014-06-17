@@ -24,6 +24,10 @@ ASMCRYPTO_MODULES = utils,aes-cbc,aes-ccm,sha1,sha256,sha512,hmac-sha1,hmac-sha2
 
 all: test api-doc dist test-shared
 
+jodid25519.js: $(BUILDDIR)/jodid25519-shared.min.js
+	sed -e 's,$<,$@,g' "$<.map" > "$@.map"
+	sed -e 's,$<,$@,g' "$<" > "$@"
+
 test-timing:
 	KARMA_FLAGS='--preprocessors=' TEST_TIMING=true $(MAKE) test
 
@@ -83,7 +87,7 @@ $(BUILD_DEP_ALL) $(DEP_JSBN):
 	$(NPM) install $(BUILD_DEP_ALL_NAMES) jsbn
 
 clean:
-	rm -rf doc/api/ coverage/ build/ lib/
+	rm -rf doc/api/ coverage/ build/ jodid25519.js
 
 clean-all: clean
 	rm -f $(BUILD_DEP_ALL) $(DEP_ALL)

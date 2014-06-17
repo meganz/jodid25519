@@ -8,7 +8,3 @@
 /doc/api
 /build/
 /jodid25519-*.tgz
-
-# npm things, don't add these to .npmignore
-/node_modules
-/jodid25519.js*
