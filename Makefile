@@ -1,6 +1,8 @@
-# Build directory.
+# Site-dependent variables
 BUILDDIR = build
 NODE_PATH = ./node_modules
+NPM = npm
+NODE = node
 
 # Dependencies - make sure you keep DEP_ALL and DEP_ALL_NAMES up-to-date
 DEP_ASMCRYPTO = $(NODE_PATH)/asmcrypto.js/asmcrypto.js
@@ -29,10 +31,10 @@ test-full:
 	KARMA_FLAGS='--preprocessors=' TEST_FULL=true $(MAKE) test
 
 test: $(KARMA) $(R_JS) $(DEP_ALL)
-	$(KARMA) start $(KARMA_FLAGS) --singleRun=true karma.conf.js --browsers PhantomJS
+	$(NODE) $(KARMA) start $(KARMA_FLAGS) --singleRun=true karma.conf.js --browsers PhantomJS
 
 api-doc: $(JSDOC)
-	$(JSDOC) --destination doc/api/ --private \
+	$(NODE) $(JSDOC) --destination doc/api/ --private \
                  --configure jsdoc.json \
                  --recurse src/
 
@@ -51,12 +53,12 @@ $(BUILDDIR)/build-config-shared.js: src/config.js Makefile
 
 $(BUILDDIR)/jodid25519-static.js: build-static
 build-static: $(R_JS) $(ALMOND) $(BUILDDIR)/build-config-static.js $(DEP_ALL)
-	$(R_JS) -o $(BUILDDIR)/build-config-static.js out="$(BUILDDIR)/jodid25519-static.js" \
+	$(NODE) $(R_JS) -o $(BUILDDIR)/build-config-static.js out="$(BUILDDIR)/jodid25519-static.js" \
 	  $(R_JS_ALMOND_OPTS) include=jodid25519 optimize=none
 
 $(BUILDDIR)/jodid25519-shared.js: build-shared
 build-shared: $(R_JS) $(ALMOND) $(BUILDDIR)/build-config-shared.js
-	$(R_JS) -o $(BUILDDIR)/build-config-shared.js out="$(BUILDDIR)/jodid25519-shared.js" \
+	$(NODE) $(R_JS) -o $(BUILDDIR)/build-config-shared.js out="$(BUILDDIR)/jodid25519-shared.js" \
 	  $(R_JS_ALMOND_OPTS) include=jodid25519 optimize=none
 
 test-static: test/build-test-static.js build-static
@@ -66,16 +68,19 @@ test-shared: test/build-test-shared.js build-shared $(DEP_ALL)
 	./$< ../$(BUILDDIR)/jodid25519-shared.js $(DEP_ALL)
 
 $(BUILDDIR)/%.min.js: $(BUILDDIR)/%.js $(UGLIFY)
-	$(UGLIFY) $< -o $@ --source-map $@.map --mangle --compress --lint
+	$(NODE) $(UGLIFY) $< -o $@ --source-map $@.map --mangle --compress --lint
 
 dist: $(BUILDDIR)/jodid25519-shared.min.js $(BUILDDIR)/jodid25519-static.js
 
-$(DEP_ASMCRYPTO):
-	npm install
-	cd $(NODE_PATH)/asmcrypto.js &&	npm install && $(NODE_PATH)/.bin/grunt --with=$(ASMCRYPTO_MODULES)
+# TODO: this may be removed when the default dist of asmcrypto includes sha512
+$(DEP_ASMCRYPTO): $(DEP_ASMCRYPTO).with.sha512
+$(DEP_ASMCRYPTO).with.sha512:
+	$(NPM) install asmcrypto.js
+	cd $(NODE_PATH)/asmcrypto.js &&	$(NPM) install && $(NODE) $(NODE_PATH)/.bin/grunt --with=$(ASMCRYPTO_MODULES)
+	touch $(DEP_ASMCRYPTO).with.sha512
 
 $(BUILD_DEP_ALL) $(DEP_JSBN):
-	npm install
+	$(NPM) install $(BUILD_DEP_ALL_NAMES) jsbn
 
 clean:
 	rm -rf doc/api/ coverage/ build/ lib/
