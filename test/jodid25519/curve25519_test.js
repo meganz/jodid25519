@@ -17,10 +17,14 @@ define([
     "jodid25519",
     "jodid25519/curve255",
     "chai",
-], function(ns, curve255, chai) {
+    "asmcrypto",
+], function(ns, curve255, chai, asmCrypto) {
     "use strict";
 
     var assert = chai.assert;
+
+    // Shut up warning messages on random number generation for unit tests.
+    asmCrypto.random.skipSystemRNGWarning = true;
     
     function xor(a, b) {
         var result = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];

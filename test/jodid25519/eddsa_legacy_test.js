@@ -15,9 +15,14 @@
 define([
     "jodid25519/eddsa",
     "chai",
-], function(ns, chai) {
-     "use strict";
+    "asmcrypto",
+], function(ns, chai, asmCrypto) {
+    "use strict";
+    
     var assert = chai.assert;
+
+    // Shut up warning messages on random number generation for unit tests.
+    asmCrypto.random.skipSystemRNGWarning = true;
 
     describe("legacy tests (original fast-djbec.js)", function() {
         describe('signing', function() {

@@ -15,8 +15,12 @@
 
 define([
     "jodid25519/curve255",
-], function(curve255) {
+    "asmcrypto",
+], function(curve255, asmCrypto) {
     "use strict";
+
+    // Shut up warning messages on random number generation for unit tests.
+    asmCrypto.random.skipSystemRNGWarning = true;
 
     var _td = _td_dh;
     var MIN_TESTS = 50;

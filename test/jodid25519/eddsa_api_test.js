@@ -20,9 +20,11 @@ define([
     "use strict";
     
     var assert = chai.assert;
+
+    // Shut up warning messages on random number generation for unit tests.
+    asmCrypto.random.skipSystemRNGWarning = true;
     
     var _td = _td_eddsa;
-    asmCrypto.random.seed(new Uint8Array([42]));
     
     describe("API tests", function() {
         describe('verify() function', function() {

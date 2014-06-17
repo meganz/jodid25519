@@ -17,10 +17,14 @@ define([
     "jodid25519/eddsa",
     "chai",
     "asmcrypto",
+    "asmcrypto",
 ], function(ns, chai, asmCrypto) {
     "use strict";
 
     var assert = chai.assert;
+
+    // Shut up warning messages on random number generation for unit tests.
+    asmCrypto.random.skipSystemRNGWarning = true;
     
     var _td = _td_eddsa;
     asmCrypto.random.seed(new Uint8Array([42]));
