@@ -6,9 +6,9 @@
 /*
  * Copyright (c) 2014 Mega Limited
  * under the MIT License.
- * 
+ *
  * Authors: Guy K. Kloss
- * 
+ *
  * You should have received a copy of the license along with this program.
  */
 
@@ -28,7 +28,7 @@ define([
      */
     var ns = {};
 
-    
+
     function _toString(vector) {
         var result = [];
         for (var i = 0; i < vector.length; i++) {
@@ -37,7 +37,7 @@ define([
         }
         return result.join('');
     }
-    
+
     function _fromString(vector) {
         var result = new Array(16);
         for (var i = 0, l = 0; i < vector.length; i += 2) {
@@ -47,7 +47,7 @@ define([
         return result;
     }
 
-    
+
     /**
      * Computes a key through scalar multiplication of a point on the curve 25519.
      *
@@ -104,8 +104,10 @@ define([
      * @returns {string}
      *     Byte string containing a new random private key seed.
      */
-    ns.generateKey = core.generateKey;
-    
+    ns.generateKey = function() {
+        return core.generateKey(true);
+    };
+
 
     return ns;
 });

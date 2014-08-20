@@ -7,9 +7,9 @@
  * Copyright (c) 2007, 2013, 2014 Michele Bini
  * Copyright (c) 2014 Mega Limited
  * under the MIT License.
- * 
+ *
  * Authors: Guy K. Kloss, Michele Bini
- * 
+ *
  * You should have received a copy of the license along with this program.
  */
 
@@ -55,7 +55,7 @@ define([
     function _BASE() {
         return [9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     }
- 
+
     // return -1, 0, +1 when a is less than, equal, or greater than b
     function _bigintcmp(a, b) {
         // The following code is a bit tricky to avoid code branching
@@ -75,7 +75,7 @@ define([
         }
         return r;
     }
- 
+
     function _bigintadd(a, b) {
         var r = [];
         var v;
@@ -97,7 +97,7 @@ define([
         r[15] = (v >>> 16) + a[15] + b[15];
         return r;
     }
- 
+
     function _bigintsub(a, b) {
         var r = [];
         var v;
@@ -119,7 +119,7 @@ define([
         r[15] = (v >>> 16) - 8 + a[15] - b[15];
         return r;
     }
- 
+
     function _sqr8h(a7, a6, a5, a4, a3, a2, a1, a0) {
         // 'division by 0x10000' can not be replaced by '>> 16' because
         // more than 32 bits of precision are needed similarly
@@ -151,7 +151,7 @@ define([
         r[15] = 0 | (v / 0x10000);
         return r;
     }
- 
+
     function _sqrmodp(a) {
         var x = _sqr8h(a[15], a[14], a[13], a[12], a[11], a[10], a[9],
                        a[8]);
@@ -197,7 +197,7 @@ define([
         _reduce(r);
         return r;
     }
- 
+
     function _mul8h(a7, a6, a5, a4, a3, a2, a1, a0, b7, b6, b5, b4, b3,
                     b2, b1, b0) {
         // 'division by 0x10000' can not be replaced by '>> 16' because
@@ -231,7 +231,7 @@ define([
         r[15] = (0 | (v / 0x10000));
         return r;
     }
- 
+
     function _mulmodp(a, b) {
         // Karatsuba multiplication scheme: x*y = (b^2+b)*x1*y1 -
         // b*(x1-x0)*(y1-y0) + (b+1)*x0*y0
@@ -285,7 +285,7 @@ define([
         _reduce(r);
         return r;
     }
-    
+
     function _reduce(arr) {
         var aCopy = arr.slice(0);
         var choice = [arr, aCopy];
@@ -328,7 +328,7 @@ define([
         v = v >>> 16;
         a[15] += v;
     }
- 
+
     function _addmodp(a, b) {
         var r = [];
         var v;
@@ -351,7 +351,7 @@ define([
         r[15] = (v >>> 16) + (a[15] & 0x7fff) + (b[15] & 0x7fff);
         return r;
     }
- 
+
     function _submodp(a, b) {
         var r = [];
         var v;
@@ -376,7 +376,7 @@ define([
                 - (b[15] & 0x7fff);
         return r;
     }
- 
+
     function _invmodp(a) {
         var c = a;
         var i = 250;
@@ -394,7 +394,7 @@ define([
         a = _mulmodp(a, c);
         return a;
     }
- 
+
     function _mulasmall(a) {
         // 'division by 0x10000' can not be replaced by '>> 16' because
         // more than 32 bits of precision are needed
@@ -420,7 +420,7 @@ define([
         _reduce(r);
         return r;
     }
- 
+
     function _dbl(x, z) {
         var x_2, z_2, m, n, o;
         m = _sqrmodp(_addmodp(x, z));
@@ -430,7 +430,7 @@ define([
         z_2 = _mulmodp(_addmodp(_mulasmall(o), m), o);
         return [x_2, z_2];
     }
- 
+
     function _sum(x, z, x_p, z_p, x_1) {
         var x_3, z_3, p, q;
         p = _mulmodp(_submodp(x, z), _addmodp(x_p, z_p));
@@ -439,17 +439,26 @@ define([
         z_3 = _mulmodp(_sqrmodp(_submodp(p, q)), x_1);
         return [x_3, z_3];
     }
-    
-    function _generateKey() {
+
+    function _generateKey(curve25519) {
         var buffer = new Uint8Array(32);
         asmCrypto.getRandomValues(buffer);
+        // For Curve25519 DH keys, we need to apply some bit mask on generated
+        // keys:
+        // * clear bit 0, 1, 2 of first byte
+        // * clear bit 7 of last byte
+        // * set bit 6 of last byte
+        if (curve25519 === true) {
+            buffer[0] &= 0xf8;
+            buffer[31] = (buffer[31] & 0x7f) | 0x40;
+        }
         var result = [];
         for (var i = 0; i < buffer.length; i++) {
             result.push(String.fromCharCode(buffer[i]));
         }
         return result.join('');
     }
-    
+
     // Expose some functions to the outside through this name space.
     // Note: This is not part of the public API.
     ns.getbit = _getbit;
@@ -468,7 +477,7 @@ define([
     ns.mulmodp = _mulmodp;
     ns.sqrmodp = _sqrmodp;
     ns.generateKey = _generateKey;
-    
-    
+
+
     return ns;
 });

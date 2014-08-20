@@ -7,9 +7,9 @@
  * Copyright (c) 2011, 2012, 2014 Ron Garret
  * Copyright (c) 2014 Mega Limited
  * under the MIT License.
- * 
+ *
  * Authors: Guy K. Kloss, Ron Garret
- * 
+ *
  * You should have received a copy of the license along with this program.
  */
 
@@ -28,7 +28,7 @@ define([
      *
      * @description
      * Digital signature scheme based on Curve25519 (Ed25519 or EdDSA).
-     * 
+     *
      * <p>
      * This code is adapted from fast-djbec.js, a faster but more complicated
      * version of the Ed25519 encryption scheme (as compared to djbec.js).
@@ -431,7 +431,7 @@ define([
     function _chr(n) {
         return String.fromCharCode(n);
     }
-    
+
     function _ord(c) {
         return c.charCodeAt(0);
     }
@@ -440,7 +440,7 @@ define([
         return _pt_unxform(_x_pt_add(_pt_xform(p1), _pt_xform(p2)));
     }
 
-    
+
     // Exports for the API.
 
     /**
@@ -465,7 +465,7 @@ define([
         return true;
     };
 
-    
+
     /**
      * Computes the EdDSA public key.
      *
@@ -483,7 +483,7 @@ define([
         return utils.bytes2string(_publickey(keySeed));
     };
 
-    
+
     /**
      * Computes an EdDSA signature of a message.
      *
@@ -524,7 +524,7 @@ define([
         return utils.bytes2string(erp.concat(_encodeint(s)));
     };
 
-        
+
     /**
      * Verifies an EdDSA signature of a message with the public key.
      *
@@ -565,8 +565,10 @@ define([
      * @returns {string}
      *     Byte string containing a new random private key seed.
      */
-    ns.generateKeySeed = core.generateKey;
-    
-    
+    ns.generateKeySeed = function() {
+        return core.generateKey(false);
+    };
+
+
     return ns;
 });

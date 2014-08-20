@@ -6,26 +6,38 @@
 /*
  * Copyright (c) 2014 Mega Limited
  * under the MIT License.
- * 
+ *
  * Authors: Guy K. Kloss
- * 
+ *
  * You should have received a copy of the license along with this program.
  */
 
 define([
     "jodid25519/eddsa",
     "chai",
+    "sinon/sandbox",
     "asmcrypto",
-], function(ns, chai, asmCrypto) {
+], function(ns, chai, sinon_sandbox, asmCrypto) {
     "use strict";
-    
+
     var assert = chai.assert;
 
     // Shut up warning messages on random number generation for unit tests.
     asmCrypto.random.skipSystemRNGWarning = true;
-    
+
     var _td = _td_eddsa;
-    
+
+    // Create/restore Sinon stub/spy/mock sandboxes.
+    var sandbox = null;
+
+    beforeEach(function() {
+        sandbox = sinon_sandbox.create();
+    });
+
+    afterEach(function() {
+        sandbox.restore();
+    });
+
     describe("API tests", function() {
         describe('verify() function', function() {
             it('signature R not on curve', function() {
@@ -102,6 +114,24 @@ define([
         });
 
         describe('generateKeySeed() function', function() {
+            var zeros = [0, 0, 0, 0, 0, 0, 0, 0,
+                         0, 0, 0, 0, 0, 0, 0, 0,
+                         0, 0, 0, 0, 0, 0, 0, 0,
+                         0, 0, 0, 0, 0, 0, 0, 0];
+            var ffs = [0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+                       0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+                       0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+                       0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff];
+
+            var _copy = function(forced) {
+                var _inner = function(value) {
+                    for (var i = 0; i < value.length; i++) {
+                        value[i] = forced[i];
+                    }
+                }
+                return _inner;
+            };
+
             it('generate several different key seeds', function() {
                 var compare = '';
                 for (var i = 0; i < 5; i++) {
@@ -110,6 +140,18 @@ define([
                     assert.notStrictEqual(keySeed, compare);
                     compare = keySeed;
                 }
+            });
+
+            it('valid keys with zeros', function() {
+                sandbox.stub(asmCrypto, 'getRandomValues', _copy(zeros));
+                var expected = 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=';
+                assert.strictEqual(btoa(ns.generateKeySeed()), expected);
+            });
+
+            it('valid keys with 0xff', function() {
+                sandbox.stub(asmCrypto, 'getRandomValues', _copy(ffs));
+                var expected = '//////////////////////////////////////////8=';
+                assert.strictEqual(btoa(ns.generateKeySeed()), expected);
             });
         });
 
