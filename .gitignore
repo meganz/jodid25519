@@ -8,6 +8,7 @@
 /doc/api
 /build/
 /jodid25519-*.tgz
+/.npm-build-deps
 
 # npm things, don't add these to .npmignore
 /node_modules
