@@ -57,7 +57,7 @@
     "karma-chai": "0.1.0",
     "karma-chai-plugins": "0.2.1",
     "karma-sinon": "~1.0.3",
-    "karma-coverage": "~0.2.4",
+    "karma-coverage": "~0.2.7",
     "istanbul": "~0.2.10",
     "ibrik": "~1.1.1",
     "dateformat": "~1.0.7-1.2.3",
