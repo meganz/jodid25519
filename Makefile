@@ -20,7 +20,7 @@ UGLIFY = $(NODE_PATH)/.bin/uglifyjs
 BUILD_DEP_ALL = $(KARMA) $(JSDOC) $(R_JS) $(ALMOND) $(UGLIFY)
 BUILD_DEP_ALL_NAMES = karma jsdoc requirejs almond uglify-js
 
-ASMCRYPTO_MODULES = utils,aes-cbc,aes-ccm,sha1,sha256,sha512,hmac-sha1,hmac-sha256,hmac-sha512,pbkdf2-hmac-sha1,pbkdf2-hmac-sha256,pbkdf2-hmac-sha512,rng,bn,rsa-pkcs1,globals-rng,globals
+ASMCRYPTO_MODULES = utils,aes-cbc,aes-ccm,sha1,sha256,sha512,hmac-sha1,hmac-sha256,hmac-sha512,pbkdf2-hmac-sha1,pbkdf2-hmac-sha256,pbkdf2-hmac-sha512,rng,bn,rsa-pkcs1,rng-globals,globals
 
 all: test api-doc dist test-shared
 
@@ -34,7 +34,7 @@ test-timing:
 test-full:
 	KARMA_FLAGS='--preprocessors=' TEST_FULL=true $(MAKE) test
 
-test: $(KARMA) $(R_JS) $(DEP_ALL)
+test: $(KARMA) $(R_JS) $(DEP_ALL) .npm-build-deps
 	$(NODE) $(KARMA) start $(KARMA_FLAGS) --singleRun=true karma.conf.js --browsers PhantomJS
 
 api-doc: $(JSDOC)
@@ -85,6 +85,12 @@ $(DEP_ASMCRYPTO).with.sha512:
 
 $(BUILD_DEP_ALL) $(DEP_JSBN):
 	$(NPM) install $(BUILD_DEP_ALL_NAMES) jsbn
+
+# Other things from package.json, such as karma plugins. we touch a guard file
+# to prevent "npm install" running on every invocation of `make test`.
+.npm-build-deps: package.json
+	$(NPM) install
+	touch .npm-build-deps
 
 clean:
 	rm -rf doc/api/ coverage/ build/ jodid25519.js
