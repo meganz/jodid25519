@@ -492,8 +492,8 @@ define([
      * <ul>
      *   <li>Unicode messages need to be converted to a byte representation
      *   (e. g. UTF-8).</li>
-     *   <li>If `pk` is given, and it is *not* a point of the curve, the signature
-     *   will be faulty, but no error will be thrown.</li>
+     *   <li>If `publicKey` is given, and it is *not* a point of the curve,
+     *   the signature will be faulty, but no error will be thrown.</li>
      * </ul>
      *
      * @function
