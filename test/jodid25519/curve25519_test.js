@@ -7,9 +7,9 @@
 /*
  * Copyright (c) 2014 Mega Limited
  * under the MIT License.
- * 
+ *
  * Authors: Guy K. Kloss
- * 
+ *
  * You should have received a copy of the license along with this program.
  */
 
@@ -25,7 +25,7 @@ define([
 
     // Shut up warning messages on random number generation for unit tests.
     asmCrypto.random.skipSystemRNGWarning = true;
-    
+
     function xor(a, b) {
         var result = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
         for (var i = 0; i < 16; i++) {
@@ -33,14 +33,16 @@ define([
         }
         return result;
     }
-    
+
     function doit(e, k) {
         var ek = curve255.curve25519_raw(e, k);
         return ek;
     }
-    
+
     describe("curve25519 tests)", function() {
         it('run tests', function() {
+            // Extend timeout, this test takes longer.
+            this.timeout(50000);
             var e1 = curve255.hexDecodeVector('3');
             var e2 = curve255.hexDecodeVector('5');
             var k = curve255.hexDecodeVector('9');

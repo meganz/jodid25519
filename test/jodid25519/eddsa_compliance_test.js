@@ -7,9 +7,9 @@
 /*
  * Copyright (c) 2014 Mega Limited
  * under the MIT License.
- * 
+ *
  * Authors: Guy K. Kloss
- * 
+ *
  * You should have received a copy of the license along with this program.
  */
 
@@ -24,7 +24,7 @@ define([
 
     // Shut up warning messages on random number generation for unit tests.
     asmCrypto.random.skipSystemRNGWarning = true;
-    
+
     var _td = _td_eddsa;
 
     var numTests = window.TEST_FULL ? _td.SIGN_INPUT.length : 32;
@@ -48,7 +48,8 @@ define([
                         assert.strictEqual(sig, sigCheck, 'sig mismatch');
                         assert.ok(ns.verify(sig, msg, pk), 'verify mismatch');
 
-                        var badmsg = msg.substring(0, msg.length - 2) + String.fromCharCode(msg.charCodeAt(msg.length - 1) + 1);
+                        var badmsg = msg.substring(0, msg.length - 2)
+                                   + String.fromCharCode(msg.charCodeAt(msg.length - 1) ^ 0xff);
                         assert.notEqual(badmsg, msg);
                         assert.notOk(ns.verify(sig, badmsg, pk), 'verify false-positive for bad message');
                     });
