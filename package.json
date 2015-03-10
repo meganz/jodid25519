@@ -57,6 +57,7 @@
     "karma-chai": "0.1.0",
     "karma-chai-plugins": "0.2.4",
     "karma-sinon": "~1.0.4",
+    "karma-junit-reporter": "~0.2",
     "karma-coverage": "~0.2.7",
     "istanbul": "~0.3.5",
     "ibrik": "~2.0.0",

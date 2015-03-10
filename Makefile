@@ -93,7 +93,7 @@ $(BUILD_DEP_ALL) $(DEP_JSBN):
 	touch .npm-build-deps
 
 clean:
-	rm -rf doc/api/ coverage/ build/ jodid25519.js
+	rm -rf doc/api/ coverage/ build/ jodid25519.js test-results.xml
 
 clean-all: clean
 	rm -f $(BUILD_DEP_ALL) $(DEP_ALL)
