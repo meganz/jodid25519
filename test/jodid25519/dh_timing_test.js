@@ -6,9 +6,9 @@
 /*
  * Copyright (c) 2014 Mega Limited
  * under the MIT License.
- * 
+ *
  * Authors: Guy K. Kloss
- * 
+ *
  * You should have received a copy of the license along with this program.
  */
 
@@ -58,6 +58,8 @@ define([
         // Only run this if we're doing timing tests.
         describe("Curve25519 timing tests:", function() {
             it('curve25519()', function() {
+                // Extend timeout, this test takes longer.
+                this.timeout(1.1 * MAX_TEST_DURATION);
                 var timings = [];
                 for (var i = 0; arraySum(timings) < MAX_TEST_DURATION
                         && i < NUM_TESTS || i < MIN_TESTS; i++) {
@@ -70,8 +72,10 @@ define([
                 }
                 console.log('Duration per curve25519() call ' + timingStatsText(timings));
             });
-            
+
             it('curve25519_raw()', function() {
+                // Extend timeout, this test takes longer.
+                this.timeout(1.1 * MAX_TEST_DURATION);
                 var timings = [];
                 for (var i = 0; arraySum(timings) < MAX_TEST_DURATION
                         && i < NUM_TESTS || i < MIN_TESTS; i++) {

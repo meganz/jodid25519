@@ -35,7 +35,7 @@ test-full:
 	KARMA_FLAGS='--preprocessors=' TEST_FULL=true $(MAKE) test
 
 test: $(KARMA) $(R_JS) $(DEP_ALL) .npm-build-deps
-	$(NODE) $(KARMA) start $(KARMA_FLAGS) --singleRun=true karma.conf.js --browsers PhantomJS
+	$(NODE) $(KARMA) start $(KARMA_FLAGS) --singleRun=true karma.conf.js --colors=false --browsers PhantomJS
 
 api-doc: $(JSDOC)
 	$(NODE) $(JSDOC) --destination doc/api/ --private \
@@ -80,7 +80,7 @@ dist: $(BUILDDIR)/jodid25519-shared.min.js $(BUILDDIR)/jodid25519-static.js
 $(DEP_ASMCRYPTO): $(DEP_ASMCRYPTO).with.sha512
 $(DEP_ASMCRYPTO).with.sha512:
 	$(NPM) install asmcrypto.js
-	cd $(NODE_PATH)/asmcrypto.js &&	$(NPM) install && $(NODE) $(NODE_PATH)/.bin/grunt --with=$(ASMCRYPTO_MODULES)
+	cd $(NODE_PATH)/asmcrypto.js &&	$(NPM) install && $(NODE) $(NODE_PATH)/.bin/grunt --with=$(ASMCRYPTO_MODULES) concat
 	touch $(DEP_ASMCRYPTO).with.sha512
 
 $(BUILD_DEP_ALL) $(DEP_JSBN):
@@ -93,7 +93,7 @@ $(BUILD_DEP_ALL) $(DEP_JSBN):
 	touch .npm-build-deps
 
 clean:
-	rm -rf doc/api/ coverage/ build/ jodid25519.js
+	rm -rf doc/api/ coverage/ build/ jodid25519.js test-results.xml
 
 clean-all: clean
 	rm -f $(BUILD_DEP_ALL) $(DEP_ALL)

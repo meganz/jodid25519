@@ -7,9 +7,9 @@
 /*
  * Copyright (c) 2014 Mega Limited
  * under the MIT License.
- * 
+ *
  * Authors: Guy K. Kloss
- * 
+ *
  * You should have received a copy of the license along with this program.
  */
 
@@ -25,7 +25,7 @@ define([
 
     // Shut up warning messages on random number generation for unit tests.
     asmCrypto.random.skipSystemRNGWarning = true;
-    
+
     var _td = _td_eddsa;
     asmCrypto.random.seed(new Uint8Array([42]));
 
@@ -64,6 +64,8 @@ define([
         // Only run this if we're doing timing tests.
         describe("Ed25519 timing tests:", function() {
             it('signing and verification', function() {
+                // Extend timeout, this test takes longer.
+                this.timeout(1.1 * MAX_TEST_DURATION);
                 var timings = [];
                 for (var i = 0; arraySum(timings) < MAX_TEST_DURATION
                         && i < NUM_TESTS || i < MIN_TESTS; i++) {
@@ -83,6 +85,8 @@ define([
             });
 
             it('signing only', function() {
+                // Extend timeout, this test takes longer.
+                this.timeout(1.1 * MAX_TEST_DURATION);
                 var timings = [];
                 for (var i = 0; arraySum(timings) < MAX_TEST_DURATION
                         && i < NUM_TESTS || i < MIN_TESTS; i++) {
@@ -100,6 +104,8 @@ define([
             });
 
             it('verify only', function() {
+                // Extend timeout, this test takes longer.
+                this.timeout(1.1 * MAX_TEST_DURATION);
                 var timings = [];
                 for (var i = 0; arraySum(timings) < MAX_TEST_DURATION
                         && i < NUM_TESTS || i < MIN_TESTS; i++) {
@@ -118,6 +124,8 @@ define([
             });
 
             it('derive public key', function() {
+                // Extend timeout, this test takes longer.
+                this.timeout(1.1 * MAX_TEST_DURATION);
                 var timings = [];
                 for (var i = 0; arraySum(timings) < MAX_TEST_DURATION
                         && i < NUM_TESTS || i < MIN_TESTS; i++) {
@@ -133,6 +141,8 @@ define([
             });
 
             it('point on curve check', function() {
+                // Extend timeout, this test takes longer.
+                this.timeout(1.1 * MAX_TEST_DURATION);
                 var timings = [];
                 for (var i = 0; arraySum(timings) < MAX_TEST_DURATION
                         && i < NUM_TESTS || i < MIN_TESTS; i++) {
@@ -148,6 +158,8 @@ define([
             });
 
             it('generate private key seed', function() {
+                // Extend timeout, this test takes longer.
+                this.timeout(1.1 * MAX_TEST_DURATION);
                 var timings = [];
                 for (var i = 0; arraySum(timings) < MAX_TEST_DURATION
                         && i < NUM_TESTS || i < MIN_TESTS; i++) {
