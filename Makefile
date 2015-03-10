@@ -80,7 +80,7 @@ dist: $(BUILDDIR)/jodid25519-shared.min.js $(BUILDDIR)/jodid25519-static.js
 $(DEP_ASMCRYPTO): $(DEP_ASMCRYPTO).with.sha512
 $(DEP_ASMCRYPTO).with.sha512:
 	$(NPM) install asmcrypto.js
-	cd $(NODE_PATH)/asmcrypto.js &&	$(NPM) install && $(NODE) $(NODE_PATH)/.bin/grunt --with=$(ASMCRYPTO_MODULES) concat
+	cd $(NODE_PATH)/asmcrypto.js &&	$(NPM) install && $(NODE) $(NODE_PATH)/.bin/grunt --with=$(ASMCRYPTO_MODULES)
 	touch $(DEP_ASMCRYPTO).with.sha512
 
 $(BUILD_DEP_ALL) $(DEP_JSBN):
