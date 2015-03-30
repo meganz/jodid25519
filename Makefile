@@ -34,7 +34,7 @@ test-timing:
 test-full:
 	KARMA_FLAGS='--preprocessors=' TEST_FULL=true $(MAKE) test
 
-test: $(KARMA) $(R_JS) $(DEP_ALL) .npm-build-deps
+test: .npm-build-deps $(KARMA) $(R_JS) $(DEP_ALL)
 	$(NODE) $(KARMA) start $(KARMA_FLAGS) --singleRun=true karma.conf.js --colors=false --browsers PhantomJS
 
 api-doc: $(JSDOC)
