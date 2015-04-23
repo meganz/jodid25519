@@ -39,7 +39,7 @@
   "readmeFilename": "README.md",
   "dependencies": {
     "jsbn": "*",
-    "asmcrypto.js": "git+https://github.com/vibornoff/asmcrypto.js#v0.0.7"
+    "asmcrypto.js": "git+https://github.com/vibornoff/asmcrypto.js#v0.0.8"
   },
   "devDependencies": {
     "almond": "~0.2.9",
