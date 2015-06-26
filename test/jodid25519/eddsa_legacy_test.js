@@ -27,6 +27,7 @@ define([
     describe("legacy tests (original fast-djbec.js)", function() {
         describe('signing', function() {
             it('signature round trips', function() {
+                this.timeout(this.timeout() * 2);
                 var tests = [['msg', '0key'],
                              ['foo', '0baz']];
                 for (var i = 0; i < tests.length; i++) {
