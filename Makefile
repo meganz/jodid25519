@@ -7,8 +7,10 @@ NODE = node
 # Dependencies - make sure you keep DEP_ALL and DEP_ALL_NAMES up-to-date
 DEP_ASMCRYPTO = $(NODE_PATH)/asmcrypto.js/asmcrypto.js
 DEP_JSBN = $(NODE_PATH)/jsbn/index.js
-DEP_ALL = $(DEP_ASMCRYPTO) $(DEP_JSBN)
-DEP_ALL_NAMES = asmcrypto.js jsbn
+DEP_NONCUSTOM = $(DEP_JSBN)
+DEP_NONCUSTOM_NAMES = jsbn
+DEP_ALL = $(DEP_ASMCRYPTO) $(DEP_NONCUSTOM)
+DEP_ALL_NAMES = asmcrypto.js $(DEP_NONCUSTOM_NAMES)
 
 # Build-depends - make sure you keep BUILD_DEP_ALL and BUILD_DEP_ALL_NAMES up-to-date
 KARMA  = $(NODE_PATH)/karma/bin/karma
@@ -24,9 +26,7 @@ ASMCRYPTO_MODULES = utils,aes-cbc,aes-ccm,sha1,sha256,sha512,hmac-sha1,hmac-sha2
 
 all: test api-doc dist test-shared
 
-jodid25519.js: $(BUILDDIR)/jodid25519-shared.min.js
-	sed -e 's,$<,$@,g' "$<.map" > "$@.map"
-	sed -e 's,$<,$@,g' "$<" > "$@"
+dist: $(BUILDDIR)/jodid25519-shared.min.js $(BUILDDIR)/jodid25519-static.js
 
 test-timing:
 	KARMA_FLAGS='--preprocessors=' TEST_TIMING=true $(MAKE) test
@@ -34,7 +34,7 @@ test-timing:
 test-full:
 	KARMA_FLAGS='--preprocessors=' TEST_FULL=true $(MAKE) test
 
-test: .npm-build-deps $(KARMA) $(R_JS) $(DEP_ALL)
+test: $(KARMA) $(R_JS) $(DEP_ALL)
 	$(NODE) $(KARMA) start $(KARMA_FLAGS) --singleRun=true karma.conf.js --colors=false --browsers PhantomJS
 
 api-doc: $(JSDOC)
@@ -74,7 +74,9 @@ test-shared: test/build-test-shared.js build-shared $(DEP_ALL)
 $(BUILDDIR)/%.min.js: $(BUILDDIR)/%.js $(UGLIFY)
 	$(NODE) $(UGLIFY) $< -o $@ --source-map $@.map --mangle --compress --lint
 
-dist: $(BUILDDIR)/jodid25519-shared.min.js $(BUILDDIR)/jodid25519-static.js
+jodid25519.js: $(BUILDDIR)/jodid25519-shared.min.js
+	sed -e 's,$<,$@,g' "$<.map" > "$@.map"
+	sed -e 's,$<,$@,g' "$<" > "$@"
 
 # TODO: this may be removed when the default dist of asmcrypto includes sha512
 $(DEP_ASMCRYPTO): $(DEP_ASMCRYPTO).with.sha512
@@ -83,8 +85,10 @@ $(DEP_ASMCRYPTO).with.sha512:
 	cd $(NODE_PATH)/asmcrypto.js &&	$(NPM) install && $(NODE) $(NODE_PATH)/.bin/grunt --with=$(ASMCRYPTO_MODULES)
 	touch $(DEP_ASMCRYPTO).with.sha512
 
-$(BUILD_DEP_ALL) $(DEP_JSBN):
-	$(NPM) install $(BUILD_DEP_ALL_NAMES) jsbn
+# annoyingly, npm sets mtime to package publish date so we have to use |-syntax
+# https://www.gnu.org/software/make/manual/html_node/Prerequisite-Types.html
+$(BUILD_DEP_ALL) $(DEP_NONCUSTOM): | .npm-build-deps
+	$(NPM) install $(BUILD_DEP_ALL_NAMES) $(DEP_NONCUSTOM_NAMES)
 
 # Other things from package.json, such as karma plugins. we touch a guard file
 # to prevent "npm install" running on every invocation of `make test`.
@@ -98,6 +102,7 @@ clean:
 clean-all: clean
 	rm -f $(BUILD_DEP_ALL) $(DEP_ALL)
 	rm -rf $(BUILD_DEP_ALL_NAMES:%=$(NODE_PATH)/%) $(DEP_ALL_NAMES:%=$(NODE_PATH)/%)
+	rm -f .npm-build-deps
 
 .PHONY: all test api-doc clean clean-all
 .PHONY: build-static build-shared test-static test-shared dist

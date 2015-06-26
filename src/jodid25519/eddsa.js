@@ -19,7 +19,7 @@ define([
     "jodid25519/utils",
     "jsbn",
     "asmcrypto",
-], function(core, curve255, utils, jsbn, asmCrypto) {
+], function(core, curve255, utils, BigInteger, asmCrypto) {
     "use strict";
 
     /**
@@ -357,13 +357,13 @@ define([
             if (base === 256) {
                 return _bi(utils.string2bytes(value));
             }
-            return new jsbn.BigInteger(value, base);
+            return new BigInteger(value, base);
         } else if (typeof value === 'string') {
-            return new jsbn.BigInteger(value, 10);
+            return new BigInteger(value, 10);
         } else if ((value instanceof Array) || (value instanceof Uint8Array)) {
-            return new jsbn.BigInteger(value);
+            return new BigInteger(value);
         } else if (typeof value === 'number') {
-            return new jsbn.BigInteger(value.toString(), 10);
+            return new BigInteger(value.toString(), 10);
         } else {
             throw "Can't convert " + value + " to BigInteger";
         }
@@ -381,7 +381,7 @@ define([
         return bytes;
     }
 
-    jsbn.BigInteger.prototype.bytes = function(n) {
+    BigInteger.prototype.bytes = function(n) {
         return _bi2bytes(this, n);
     };
 
