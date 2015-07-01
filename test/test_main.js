@@ -42,3 +42,7 @@ requirejs.config(Object_deep_merge(requirejs_config_jodid25519, {
     // Start test run, once Require.js is done.
     callback: window.__karma__.start
 }));
+
+mocha.setup({
+    timeout: 5000
+});

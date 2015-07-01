@@ -22,7 +22,7 @@ UGLIFY = $(NODE_PATH)/.bin/uglifyjs
 BUILD_DEP_ALL = $(KARMA) $(JSDOC) $(R_JS) $(ALMOND) $(UGLIFY)
 BUILD_DEP_ALL_NAMES = karma jsdoc requirejs almond uglify-js
 
-ASMCRYPTO_MODULES = utils,aes-cbc,aes-ccm,sha1,sha256,sha512,hmac-sha1,hmac-sha256,hmac-sha512,pbkdf2-hmac-sha1,pbkdf2-hmac-sha256,pbkdf2-hmac-sha512,rng,bn,rsa-pkcs1,rng-globals,globals
+ASMCRYPTO_MODULES = utils,globals,aes-cbc,aes-ccm,sha1,sha256,sha512,hmac-sha1,hmac-sha256,hmac-sha512,pbkdf2-hmac-sha1,pbkdf2-hmac-sha256,pbkdf2-hmac-sha512,rng,bn,rsa-pkcs1,rng-globals
 
 all: test api-doc dist test-shared
 
