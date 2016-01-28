@@ -1,6 +1,8 @@
 Jodid25519 [![Build Status](https://secure.travis-ci.org/meganz/jodid25519.png)](https://travis-ci.org/meganz/jodid25519)
 ===================================================================================================================================
 
+**Note:** I (Guy Kloss) now recommend to use TweetNaCl.js (a TweetNaCl port to JavaScript) rather than this implementation, which is more likely to perform in constant time and has likely seen more eyes for review/audits.
+
 Javascript implementation of the Curve25519 and Ed25519 elliptic cryptography functions by Daniel J. Bernstein.
 
 For the API, please consult the generated documentation under doc/ (you can run `make` to generate it).
